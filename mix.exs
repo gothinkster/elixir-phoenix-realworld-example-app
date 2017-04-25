@@ -1,4 +1,4 @@
-defmodule Realworld.Mixfile do
+defmodule RealWorld.Mixfile do
   use Mix.Project
 
   def project do
@@ -17,7 +17,7 @@ defmodule Realworld.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {Realworld, []},
+    [mod: {RealWorld, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex]]
   end

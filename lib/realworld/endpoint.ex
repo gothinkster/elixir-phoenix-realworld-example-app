@@ -1,7 +1,7 @@
-defmodule Realworld.Endpoint do
+defmodule RealWorld.Endpoint do
   use Phoenix.Endpoint, otp_app: :realworld
 
-  socket "/socket", Realworld.UserSocket
+  socket "/socket", RealWorld.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -38,5 +38,5 @@ defmodule Realworld.Endpoint do
     key: "_realworld_key",
     signing_salt: "k0JbpJ/y"
 
-  plug Realworld.Router
+  plug RealWorld.Router
 end

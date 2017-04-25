@@ -1,12 +1,12 @@
-defmodule Realworld.Web do
+defmodule RealWorld.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Realworld.Web, :controller
-      use Realworld.Web, :view
+      use RealWorld.Web, :controller
+      use RealWorld.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -30,12 +30,12 @@ defmodule Realworld.Web do
     quote do
       use Phoenix.Controller
 
-      alias Realworld.Repo
+      alias RealWorld.Repo
       import Ecto
       import Ecto.Query
 
-      import Realworld.Router.Helpers
-      import Realworld.Gettext
+      import RealWorld.Router.Helpers
+      import RealWorld.Gettext
     end
   end
 
@@ -49,9 +49,9 @@ defmodule Realworld.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Realworld.Router.Helpers
-      import Realworld.ErrorHelpers
-      import Realworld.Gettext
+      import RealWorld.Router.Helpers
+      import RealWorld.ErrorHelpers
+      import RealWorld.Gettext
     end
   end
 
@@ -65,10 +65,10 @@ defmodule Realworld.Web do
     quote do
       use Phoenix.Channel
 
-      alias Realworld.Repo
+      alias RealWorld.Repo
       import Ecto
       import Ecto.Query
-      import Realworld.Gettext
+      import RealWorld.Gettext
     end
   end
 

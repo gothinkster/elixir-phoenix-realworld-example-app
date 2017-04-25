@@ -1,5 +1,5 @@
-defmodule Realworld.PageControllerTest do
-  use Realworld.ConnCase
+defmodule RealWorld.PageControllerTest do
+  use RealWorld.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

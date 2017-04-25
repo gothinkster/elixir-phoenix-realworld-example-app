@@ -1,11 +1,11 @@
-defmodule Realworld.Router do
-  use Realworld.Web, :router
+defmodule RealWorld.Router do
+  use RealWorld.Web, :router
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/api", Realworld do
+  scope "/api", RealWorld do
     pipe_through :api
 
     get "/tags", TagController, :index

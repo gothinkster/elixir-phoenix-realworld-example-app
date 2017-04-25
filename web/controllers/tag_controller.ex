@@ -1,5 +1,5 @@
-defmodule Realworld.TagController do
-  use Realworld.Web, :controller
+defmodule RealWorld.TagController do
+  use RealWorld.Web, :controller
 
   def index(conn, _params) do
     json conn, []

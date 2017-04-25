@@ -1,4 +1,4 @@
-defmodule Realworld.ChannelCase do
+defmodule RealWorld.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,22 +20,22 @@ defmodule Realworld.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias Realworld.Repo
+      alias RealWorld.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
 
 
       # The default endpoint for testing
-      @endpoint Realworld.Endpoint
+      @endpoint RealWorld.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Realworld.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RealWorld.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Realworld.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(RealWorld.Repo, {:shared, self()})
     end
 
     :ok
