@@ -10,10 +10,10 @@ config :realworld,
   ecto_repos: [RealWorld.Repo]
 
 # Configures the endpoint
-config :realworld, RealWorld.Endpoint,
+config :realworld, RealWorld.Web.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "S1+lQDvzJgfOHGwmzJQ94Urx3cb4e01lS+G117ms5p/0xOzW++P76HcoyyOn9foR",
-  render_errors: [view: RealWorld.ErrorView, accepts: ~w(html json)],
+  secret_key_base: "9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N",
+  render_errors: [view: RealWorld.Web.ErrorView, accepts: ~w(json)],
   pubsub: [name: RealWorld.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
