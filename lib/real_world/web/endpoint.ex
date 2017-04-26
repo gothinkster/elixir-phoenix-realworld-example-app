@@ -1,5 +1,5 @@
 defmodule RealWorld.Web.Endpoint do
-  use Phoenix.Endpoint, otp_app: :realworld
+  use Phoenix.Endpoint, otp_app: :real_world
 
   socket "/socket", RealWorld.Web.UserSocket
 
@@ -8,7 +8,7 @@ defmodule RealWorld.Web.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :realworld, gzip: false,
+    at: "/", from: :real_world, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
@@ -33,8 +33,8 @@ defmodule RealWorld.Web.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_realWorld_key",
-    signing_salt: "C/TEi87m"
+    key: "_real_world_key",
+    signing_salt: "Stn1Lrm3"
 
   plug RealWorld.Web.Router
 

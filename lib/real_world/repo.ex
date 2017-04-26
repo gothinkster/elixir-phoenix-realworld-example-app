@@ -1,5 +1,5 @@
 defmodule RealWorld.Repo do
-  use Ecto.Repo, otp_app: :realworld
+  use Ecto.Repo, otp_app: :real_world
 
   @doc """
   Dynamically loads the repository url from the

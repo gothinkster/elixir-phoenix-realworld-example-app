@@ -2,7 +2,7 @@ defmodule RealWorld.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :realworld,
+    [app: :real_world,
      version: "0.0.1",
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),

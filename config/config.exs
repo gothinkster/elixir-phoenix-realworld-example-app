@@ -6,11 +6,11 @@
 use Mix.Config
 
 # General application configuration
-config :realworld,
+config :real_world,
   ecto_repos: [RealWorld.Repo]
 
 # Configures the endpoint
-config :realworld, RealWorld.Web.Endpoint,
+config :real_world, RealWorld.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N",
   render_errors: [view: RealWorld.Web.ErrorView, accepts: ~w(json)],
