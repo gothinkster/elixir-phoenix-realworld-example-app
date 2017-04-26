@@ -7,5 +7,7 @@ defmodule RealWorld.Web.Router do
 
   scope "/api", RealWorld.Web do
     pipe_through :api
+
+    resources "/articles", ArticleController, except: [:new, :edit]
   end
 end
