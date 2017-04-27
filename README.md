@@ -1,5 +1,6 @@
 # ![RealWorld Example App](logo.png)
-
+[![Travis](https://img.shields.io/travis/BrainMaestro/elixir-phoenix-realworld.svg?style=flat-square)](https://travis-ci.org/BrainMaestro/elixir-phoenix-realworld)
+[![Coveralls](https://img.shields.io/coveralls/BrainMaestro/elixir-phoenix-realworld.svg?style=flat-square)](https://coveralls.io/github/BrainMaestro/elixir-phoenix-realworld)
 > Elixir (Phoenix) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
 
 
@@ -17,7 +18,8 @@ For more information on how to this works with other frontends/backends, head ov
 1. Run the following commands in the project directory:
     - `mix deps.get` to install dependencies.
     - `mix ecto.create` to create the database.
-    - `mix phoenix.server` to run the application.
+    - `mix ecto.migrate` to run the database migrations.
+    - `mix phx.server` to run the application.
 
 ## License
 
