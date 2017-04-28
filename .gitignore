@@ -21,6 +21,7 @@ erl_crash.dump
 .classpath
 *.launch
 .settings/
+docker-compose.yml
 
 #System Files
 .DS_Store

@@ -20,11 +20,11 @@ defmodule RealWorld.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {RealWorld.Application, []},
-     extra_applications: [:logger, :runtime_tools]]
+     extra_applications: [:logger, :runtime_tools, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/support", "test/factories"]
   defp elixirc_paths(_),     do: ["lib"]
 
   # Specifies your project dependencies.
@@ -38,6 +38,7 @@ defmodule RealWorld.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
+      {:comeonin, "~> 3.0"},
       {:excoveralls, "~> 0.6", only: :test},
     ]
   end
