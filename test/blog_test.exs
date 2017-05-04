@@ -4,8 +4,8 @@ defmodule RealWorld.BlogTest do
   alias RealWorld.Blog
   alias RealWorld.Blog.Article
 
-  @create_attrs %{body: "some body", description: "some description", title: "some title", favorites_count: 0}
-  @update_attrs %{body: "some updated body", description: "some updated description", title: "some updated title", favorites_count: 0}
+  @create_attrs %{body: "some body", description: "some description", title: "some title"}
+  @update_attrs %{body: "some updated body", description: "some updated description", title: "some updated title"}
   @invalid_attrs %{body: nil, description: nil, title: nil}
 
   def fixture(:article, attrs \\ @create_attrs) do
@@ -29,7 +29,6 @@ defmodule RealWorld.BlogTest do
     assert article.description == "some description"
     assert article.title == "some title"
     assert article.slug == "some-title"
-    assert article.favorites_count == 0
   end
 
   test "create_article/1 with invalid data returns error changeset" do
@@ -44,7 +43,6 @@ defmodule RealWorld.BlogTest do
     assert article.description == "some updated description"
     assert article.title == "some updated title"
     assert article.slug == "some-updated-title"
-    assert article.favorites_count == 0
   end
 
   test "update_article/2 with invalid data returns error changeset" do

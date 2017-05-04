@@ -20,10 +20,11 @@ defmodule RealWorld.Web.ErrorHelpers do
     #     dngettext "errors", "1 file", "%{count} files", count
     #     dgettext "errors", "is invalid"
     #
-    if count = opts[:count] do
-      Gettext.dngettext(RealWorld.Web.Gettext, "errors", msg, msg, count, opts)
-    else
-      Gettext.dgettext(RealWorld.Web.Gettext, "errors", msg, opts)
+    case opts[:count] do
+      nil ->
+        Gettext.dgettext(RealWorld.Web.Gettext, "errors", msg, opts)
+      count ->
+        Gettext.dngettext(RealWorld.Web.Gettext, "errors", msg, msg, count, opts)
     end
   end
 end

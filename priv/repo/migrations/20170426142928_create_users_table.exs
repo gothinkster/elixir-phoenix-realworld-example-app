@@ -9,9 +9,9 @@ defmodule RealWorld.Repo.Migrations.CreateUsersTable do
       add :bio, :string
       add :image, :string
 
-      timestamps()
+      timestamps inserted_at: :created_at
     end
 
-    create unique_index(:users, [:username], name: :unq_index_accounts_users_username)
+    create unique_index(:users, [:username])
   end
 end

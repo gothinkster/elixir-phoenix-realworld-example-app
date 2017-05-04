@@ -12,6 +12,6 @@ defmodule RealWorld.Users.User do
     field :bio, :string
     field :image, :string
 
-    timestamps()
+    timestamps inserted_at: :created_at
   end
 end

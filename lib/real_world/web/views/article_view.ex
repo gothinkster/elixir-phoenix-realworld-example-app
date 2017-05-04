@@ -1,6 +1,6 @@
 defmodule RealWorld.Web.ArticleView do
   use RealWorld.Web, :view
-  alias RealWorld.Web.ArticleView
+  alias RealWorld.Web.{ArticleView, FormatHelpers}
 
   def render("index.json", %{articles: articles}) do
     %{articles: render_many(articles, ArticleView, "article.json"),
@@ -12,13 +12,12 @@ defmodule RealWorld.Web.ArticleView do
   end
 
   def render("article.json", %{article: article}) do
-    %{id: article.id,
-      createdAt: article.inserted_at |> NaiveDateTime.to_iso8601(),
-      updatedAt: article.updated_at |> NaiveDateTime.to_iso8601(),
-      title: article.title,
-      description: article.description,
-      body: article.body,
-      slug: article.slug,
-      favoritesCount: article.favorites_count}
+    article
+    |> Map.from_struct
+    |> Map.put(:created_at, NaiveDateTime.to_iso8601(article.created_at))
+    |> Map.put(:updated_at, NaiveDateTime.to_iso8601(article.updated_at))
+    |> Map.put(:favorites_count, 0)
+    |> Map.take([:id, :body, :description, :title, :slug, :favorites_count, :created_at, :updated_at])
+    |> FormatHelpers.camelize
   end
 end
