@@ -1,4 +1,8 @@
 defmodule RealWorld.Blog.Article do
+  @moduledoc """
+  The Article Model
+  """
+
   use Ecto.Schema
 
   schema "articles" do
