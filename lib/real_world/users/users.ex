@@ -4,7 +4,7 @@ defmodule RealWorld.Users do
   """
 
   import Ecto.{Query, Changeset}, warn: false
-  import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0, hashpwsalt: 1]
+  import Comeonin.Bcrypt, only: [hashpwsalt: 1]
 
   alias RealWorld.Repo
   alias RealWorld.Users.User
@@ -28,10 +28,6 @@ defmodule RealWorld.Users do
     |> Repo.insert
   end
 
-  @doc """
-  Binds a map (%{}) to a User struct (%User{}) and
-  validates the struct to a set of requirements.
-  """
   defp user_changeset(%User{} = user, attrs) do
     user
     |> cast(attrs, [:username, :password, :email])
@@ -39,18 +35,6 @@ defmodule RealWorld.Users do
     |> unique_constraint(:username, name: :unq_index_accounts_users_username)
   end
 
-  @doc """
-  Hashes a password using bcrypt.
-
-  Never store passwords in plain text or reversable hashes.
-
-  ## Examples
-
-    %User{}
-    |> user_changeset(%{password: "some password"})
-    |> hash_password
-
-  """
   defp hash_password(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->

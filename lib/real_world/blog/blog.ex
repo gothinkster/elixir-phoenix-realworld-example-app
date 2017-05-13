@@ -5,7 +5,6 @@ defmodule RealWorld.Blog do
 
   import Ecto.{Query, Changeset}, warn: false
   alias RealWorld.Repo
-
   alias RealWorld.Blog.Article
 
   @doc """
@@ -19,6 +18,15 @@ defmodule RealWorld.Blog do
   """
   def list_articles do
     Repo.all(Article)
+  end
+
+  def list_tags do
+    Ecto.Adapters.SQL.query!(Repo, "select count(*) as tag_count, ut.tag
+          from articles,
+             lateral unnest(articles.tag_list) as ut(tag)
+          group by ut.tag
+          order by tag_count desc limit 5;").rows
+          |> Enum.map(fn(v)-> Enum.at(v, 1) end)
   end
 
   @doc """
@@ -36,6 +44,8 @@ defmodule RealWorld.Blog do
 
   """
   def get_article!(id), do: Repo.get!(Article, id)
+
+  def get_article_by_slug!(slug), do: Repo.get_by!(Article, slug: slug)
 
   @doc """
   Creates a article.
@@ -104,7 +114,8 @@ defmodule RealWorld.Blog do
 
   defp article_changeset(%Article{} = article, attrs) do
     article
-    |> cast(attrs, [:title, :description, :body, :slug])
+    |> cast(attrs, [:title, :description, :body, :slug, :tag_list])
+    |> assoc_constraint(:author)
     |> slugify_title()
     |> validate_required([:title, :description, :body])
   end

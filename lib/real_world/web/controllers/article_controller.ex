@@ -8,6 +8,7 @@ defmodule RealWorld.Web.ArticleController do
 
   def index(conn, _params) do
     articles = Blog.list_articles()
+               |> RealWorld.Repo.preload(:author)
     render(conn, "index.json", articles: articles)
   end
 
@@ -20,8 +21,8 @@ defmodule RealWorld.Web.ArticleController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    article = Blog.get_article!(id)
+  def show(conn, %{"id" => slug}) do
+    article = Blog.get_article_by_slug!(slug)
     render(conn, "show.json", article: article)
   end
 

@@ -24,20 +24,23 @@ defmodule RealWorld.Web.ArticleControllerTest do
 
   test "creates article and renders article when data is valid", %{conn: conn} do
     conn = post conn, article_path(conn, :create), article: @create_attrs
-    assert %{"id" => id} = json_response(conn, 201)["article"]
+    assert %{"slug" => slug} = json_response(conn, 201)["article"]
 
-    conn = get conn, article_path(conn, :show, id)
+    conn = get conn, article_path(conn, :show, slug)
     json = json_response(conn, 200)["article"]
 
     assert json == %{
-      "id" => id,
+      "id" => json["id"],
       "body" => "some body",
       "description" => "some description",
       "slug" => "some-title",
       "createdAt" => json["createdAt"],
       "updatedAt" => json["updatedAt"],
       "favoritesCount" => 0,
-      "title" => "some title"}
+      "title" => "some title",
+      "author" => %{},
+      "favorited" => false,
+      "tagList" => nil}
   end
 
   test "does not create article and renders errors when data is invalid", %{conn: conn} do
@@ -50,7 +53,7 @@ defmodule RealWorld.Web.ArticleControllerTest do
     conn = put conn, article_path(conn, :update, article), article: @update_attrs
     assert %{"id" => ^id} = json_response(conn, 200)["article"]
 
-    conn = get conn, article_path(conn, :show, id)
+    conn = get conn, article_path(conn, :show, "some-updated-title")
     json = json_response(conn, 200)["article"]
 
     assert json == %{
@@ -61,7 +64,10 @@ defmodule RealWorld.Web.ArticleControllerTest do
       "favoritesCount" => 0,
       "createdAt" => json["createdAt"],
       "updatedAt" => json["updatedAt"],
-      "title" => "some updated title"}
+      "title" => "some updated title",
+      "author" => %{},
+      "favorited" => false,
+      "tagList" => nil}
   end
 
   test "does not update chosen article and renders errors when data is invalid", %{conn: conn} do
