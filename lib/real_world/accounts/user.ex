@@ -6,6 +6,9 @@ defmodule RealWorld.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @required_fields ~w(email username password)a
+  @optional_fields ~w(bio image)a
+
   schema "users" do
     field :email, :string
     field :password, :string
@@ -16,10 +19,10 @@ defmodule RealWorld.Accounts.User do
     timestamps inserted_at: :created_at
   end
 
-  def user_changeset(user, attrs) do
+  def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :password, :email, :bio, :image])
-    |> validate_required([:email, :username, :password])
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> unique_constraint(:username, name: :users_username_index)
   end
 
