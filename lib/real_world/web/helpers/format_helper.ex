@@ -1,4 +1,8 @@
 defmodule RealWorld.Web.FormatHelpers do
+  @moduledoc """
+  Provides format-related functions.
+  """
+
   def camelize(map) when is_map(map) do
     map
     |> Enum.map(fn {key, value} -> {camelize_key(key), value} end)
