@@ -1,7 +1,15 @@
 language: elixir
 
+sudo: required
+dist: trusty
+
 elixir:
   - 1.4
+
+addons:
+    postgresql: "9.6"
+services:
+    - postgresql
 
 env:
   - MIX_ENV=test

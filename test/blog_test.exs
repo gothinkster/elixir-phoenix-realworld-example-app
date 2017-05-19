@@ -56,9 +56,4 @@ defmodule RealWorld.BlogTest do
     assert {:ok, %Article{}} = Blog.delete_article(article)
     assert_raise Ecto.NoResultsError, fn -> Blog.get_article!(article.id) end
   end
-
-  test "change_article/1 returns a article changeset" do
-    article = fixture(:article)
-    assert %Ecto.Changeset{} = Blog.change_article(article)
-  end
 end
