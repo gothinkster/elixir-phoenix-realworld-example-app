@@ -5,7 +5,7 @@ defmodule RealWorld.Mixfile do
     [
       app: :real_world,
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
@@ -32,16 +32,16 @@ defmodule RealWorld.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0-rc", override: true},
+      {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
-      {:postgrex, ">= 0.0.0"},
+      {:postgrex, "~> 0.13.3"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
-      {:comeonin, "~> 3.0"},
-      {:guardian, "~> 0.14"},
-      {:excoveralls, "~> 0.6", only: :test},
-      {:credo, "~> 0.7", only: [:dev, :test]}
+      {:cowboy, "~> 1.1"},
+      {:comeonin, "~> 3.2"},
+      {:guardian, "~> 0.14.5"},
+      {:excoveralls, "~> 0.7", only: :test},
+      {:credo, "~> 0.8.5", only: [:dev, :test]}
     ]
   end
 
