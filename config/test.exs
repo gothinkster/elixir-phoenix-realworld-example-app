@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :real_world, RealWorld.Web.Endpoint,
+config :real_world, RealWorldWeb.Endpoint,
   http: [port: 4001],
   server: false
 
