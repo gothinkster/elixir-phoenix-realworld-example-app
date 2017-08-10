@@ -13,12 +13,12 @@ defmodule RealWorldWeb.UserView do
       usersCount: length(users)}
   end
 
-  def render("show.json", %{user: user}) do
-    %{user: render_one(user, UserView, "user.json")}
-  end
-
   def render("show.json", %{jwt: jwt, user: user}) do
     %{user: Map.merge(render_one(user, UserView, "user.json"), %{token: jwt})}
+  end
+
+  def render("show.json", %{user: user}) do
+    %{user: render_one(user, UserView, "user.json")}
   end
 
   def render("login.json", %{jwt: jwt, user: user}) do

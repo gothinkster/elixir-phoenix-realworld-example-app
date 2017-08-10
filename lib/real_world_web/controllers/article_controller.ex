@@ -7,7 +7,7 @@ defmodule RealWorldWeb.ArticleController do
 
   action_fallback RealWorldWeb.FallbackController
 
-  plug Guardian.Plug.EnsureAuthenticated, %{handler: RealWorld.Web.SessionController} when action in [:create]
+  plug Guardian.Plug.EnsureAuthenticated, %{handler: RealWorldWeb.SessionController} when action in [:create, :update, :delete]
 
   def index(conn, _params, _user, _full_claims) do
     articles = Blog.list_articles()
@@ -16,7 +16,7 @@ defmodule RealWorldWeb.ArticleController do
   end
 
   def create(conn, %{"article" => article_params}, user, _full_claims) do
-    with %Article{} = article <- Blog.create_article(article_params |> Map.merge(%{"user_id" => user.id})) do
+    with {:ok, %Article{} = article} <- Blog.create_article(article_params |> Map.merge(%{"user_id" => user.id})) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", article_path(conn, :show, article))

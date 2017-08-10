@@ -1,5 +1,5 @@
-defmodule RealWorld.Web.TagView do
-  use RealWorld.Web, :view
+defmodule RealWorldWeb.TagView do
+  use RealWorldWeb, :view
 
   def render("index.json", %{tags: tags}) do
     %{tags: tags}

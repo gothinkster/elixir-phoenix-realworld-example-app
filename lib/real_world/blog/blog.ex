@@ -61,8 +61,7 @@ defmodule RealWorld.Blog do
   def create_article(attrs \\ %{}) do
     %Article{}
     |> Article.changeset(attrs)
-    |> Repo.insert!()
-    |> Repo.preload(:author)
+    |> Repo.insert()
   end
 
   @doc """

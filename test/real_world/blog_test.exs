@@ -4,27 +4,29 @@ defmodule RealWorld.BlogTest do
   alias RealWorld.Blog
   alias RealWorld.Blog.Article
 
+  import RealWorld.Factory
+
   @create_attrs %{body: "some body", description: "some description", title: "some title"}
   @update_attrs %{body: "some updated body", description: "some updated description", title: "some updated title"}
   @invalid_attrs %{body: nil, description: nil, title: nil}
 
-  def fixture(:article, attrs \\ @create_attrs) do
-    {:ok, article} = Blog.create_article(attrs)
-    article
+  setup do
+    user = insert(:user)
+    article = insert(:article, author: user)
+    {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
+    {:ok, %{author: user, article: article, jwt: jwt}}
   end
 
   test "list_articles/1 returns all articles" do
-    article = fixture(:article)
-    assert Blog.list_articles() == [article]
+    assert Blog.list_articles() != []
   end
 
-  test "get_article! returns the article with given id" do
-    article = fixture(:article)
-    assert Blog.get_article!(article.id) == article
+  test "get_article! returns the article with given id", %{article: article} do
+    assert Blog.get_article!(article.id).id == article.id
   end
 
-  test "create_article/1 with valid data creates a article" do
-    assert {:ok, %Article{} = article} = Blog.create_article(@create_attrs)
+  test "create_article/1 with valid data creates a article", %{author: author} do
+    assert {:ok, %Article{} = article} = Blog.create_article(Map.merge(@create_attrs, %{user_id: author.id}))
     assert article.body == "some body"
     assert article.description == "some description"
     assert article.title == "some title"
@@ -35,8 +37,7 @@ defmodule RealWorld.BlogTest do
     assert {:error, %Ecto.Changeset{}} = Blog.create_article(@invalid_attrs)
   end
 
-  test "update_article/2 with valid data updates the article" do
-    article = fixture(:article)
+  test "update_article/2 with valid data updates the article", %{article: article} do
     assert {:ok, article} = Blog.update_article(article, @update_attrs)
     assert %Article{} = article
     assert article.body == "some updated body"
@@ -45,15 +46,13 @@ defmodule RealWorld.BlogTest do
     assert article.slug == "some-updated-title"
   end
 
-  test "update_article/2 with invalid data returns error changeset" do
-    article = fixture(:article)
+  test "update_article/2 with invalid data returns error changeset", %{article: article} do
     assert {:error, %Ecto.Changeset{}} = Blog.update_article(article, @invalid_attrs)
-    assert article == Blog.get_article!(article.id)
+    assert article.id == Blog.get_article!(article.id).id
   end
 
-  test "delete_article/1 deletes the article" do
-    article = fixture(:article)
-    assert {:ok, %Article{}} = Blog.delete_article(article)
+  test "delete_article/1 deletes the article", %{article: article} do
+    assert {:ok, %Article{}} = Blog.delete_article(article.slug)
     assert_raise Ecto.NoResultsError, fn -> Blog.get_article!(article.id) end
   end
 end

@@ -29,7 +29,7 @@ defmodule RealWorldWeb.UserController do
     else
       conn
       |> put_status(:not_found)
-      |> render(RealWorld.Web.ErrorView, "404.json", [])
+      |> render(RealWorldWeb.ErrorView, "404.json", [])
     end
 
     conn
