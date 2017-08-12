@@ -3,14 +3,16 @@ defmodule RealWorldWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug ProperCase.Plug.SnakeCaseParams
     plug Guardian.Plug.VerifyHeader, realm: "Token"
     plug Guardian.Plug.LoadResource
   end
 
-  scope "/api", RealWorldWeb do
+  scope "/", RealWorldWeb do
     pipe_through :api
 
     resources "/articles", ArticleController, except: [:new, :edit]
+    get "/tags", TagController, :index
 
     get "/user", UserController, :current_user
     put "/user", UserController, :update

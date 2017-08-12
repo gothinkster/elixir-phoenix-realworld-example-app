@@ -2,6 +2,12 @@ defmodule RealWorldWeb.UserView do
   use RealWorldWeb, :view
   alias RealWorldWeb.{UserView, FormatHelpers}
 
+  def render("author.json", %{user: user}) do
+    user
+    |> Map.from_struct
+    |> Map.take([:username, :bio, :image])
+  end
+
   def render("index.json", %{users: users}) do
     %{users: render_many(users, UserView, "user.json"),
       usersCount: length(users)}

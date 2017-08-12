@@ -3,9 +3,8 @@ defmodule RealWorld.Blog do
   The boundary for the Blog system.
   """
 
-  import Ecto.{Query, Changeset}, warn: false
+  import Ecto.Query, warn: false
   alias RealWorld.Repo
-
   alias RealWorld.Blog.Article
 
   @doc """
@@ -19,6 +18,14 @@ defmodule RealWorld.Blog do
   """
   def list_articles do
     Repo.all(Article)
+  end
+
+  def list_tags do
+    Ecto.Adapters.SQL.query!(Repo, "select count(*) as tag_count, ut.tag
+          from articles, lateral unnest(articles.tag_list) as ut(tag)
+          group by ut.tag
+          order by tag_count desc limit 5;").rows
+          |> Enum.map(fn(v) -> Enum.at(v, 1) end)
   end
 
   @doc """
@@ -37,6 +44,8 @@ defmodule RealWorld.Blog do
   """
   def get_article!(id), do: Repo.get!(Article, id)
 
+  def get_article_by_slug!(slug), do: Repo.get_by!(Article, slug: slug)
+
   @doc """
   Creates a article.
 
@@ -51,7 +60,7 @@ defmodule RealWorld.Blog do
   """
   def create_article(attrs \\ %{}) do
     %Article{}
-    |> article_changeset(attrs)
+    |> Article.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -69,7 +78,7 @@ defmodule RealWorld.Blog do
   """
   def update_article(%Article{} = article, attrs) do
     article
-    |> article_changeset(attrs)
+    |> Article.changeset(attrs)
     |> Repo.update()
   end
 
@@ -85,41 +94,14 @@ defmodule RealWorld.Blog do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_article(%Article{} = article) do
-    Repo.delete(article)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking article changes.
-
-  ## Examples
-
-      iex> change_article(article)
-      %Ecto.Changeset{source: %Article{}}
-
-  """
-  def change_article(%Article{} = article) do
-    article_changeset(article, %{})
-  end
-
-  defp article_changeset(%Article{} = article, attrs) do
-    article
-    |> cast(attrs, [:title, :description, :body, :slug])
-    |> slugify_title()
-    |> validate_required([:title, :description, :body])
-  end
-
-  defp slugify_title(changeset) do
-    if title = get_change(changeset, :title) do
-      put_change(changeset, :slug, slugify(title))
-    else
-      changeset
+  def delete_article(slug) do
+    case Article |> Repo.get_by(slug: slug) do
+      nil ->
+        false
+      article ->
+        Repo.delete(article)
     end
   end
 
-  defp slugify(str) do
-    str
-    |> String.downcase()
-    |> String.replace(~r/[^\w-]+/u, "-")
-  end
+
 end

@@ -24,6 +24,14 @@ defmodule RealWorldWeb.UserController do
   def current_user(conn, _params, user, _) do
     jwt = Guardian.Plug.current_token(conn)
 
+    if user != nil do
+      render(conn, "show.json", jwt: jwt, user: user)
+    else
+      conn
+      |> put_status(:not_found)
+      |> render(RealWorldWeb.ErrorView, "404.json", [])
+    end
+
     conn
     |> put_status(:ok)
     |> render("show.json", jwt: jwt, user: user)

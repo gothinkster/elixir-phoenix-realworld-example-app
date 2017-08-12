@@ -1,77 +1,82 @@
 defmodule RealWorldWeb.ArticleControllerTest do
   use RealWorldWeb.ConnCase
 
-  alias RealWorld.Blog
-  alias RealWorld.Blog.Article
+  import RealWorld.Factory
 
   @create_attrs %{body: "some body", description: "some description", title: "some title"}
   @update_attrs %{body: "some updated body", description: "some updated description", title: "some updated title"}
   @invalid_attrs %{body: nil, description: nil, title: nil}
 
-  def fixture(:article) do
-    {:ok, article} = Blog.create_article(@create_attrs)
-    article
-  end
-
-  setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+  setup do
+    user = insert(:user)
+    article = insert(:article, author: user)
+    {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
+    {:ok, %{article: article, user: user, jwt: jwt}}
   end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, article_path(conn, :index)
-    assert json_response(conn, 200)["articles"] == []
+    assert json_response(conn, 200)["articles"] != []
   end
 
-  test "creates article and renders article when data is valid", %{conn: conn} do
+  test "creates article and renders article when data is valid", %{conn: conn, jwt: jwt} do
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
     conn = post conn, article_path(conn, :create), article: @create_attrs
-    assert %{"id" => id} = json_response(conn, 201)["article"]
-
-    conn = get conn, article_path(conn, :show, id)
-    json = json_response(conn, 200)["article"]
+    json = json_response(conn, 201)["article"]
 
     assert json == %{
-      "id" => id,
+      "id" => json["id"],
       "body" => "some body",
       "description" => "some description",
       "slug" => "some-title",
       "createdAt" => json["createdAt"],
       "updatedAt" => json["updatedAt"],
       "favoritesCount" => 0,
-      "title" => "some title"}
+      "title" => "some title",
+      "author" => %{},
+      "favorited" => false,
+      "tagList" => nil}
   end
 
-  test "does not create article and renders errors when data is invalid", %{conn: conn} do
+  test "does not create article and renders errors when data is invalid", %{conn: conn, jwt: jwt} do
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
     conn = post conn, article_path(conn, :create), article: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
-  test "updates chosen article and renders article when data is valid", %{conn: conn} do
-    %Article{id: id} = article = fixture(:article)
+  test "updates chosen article and renders article when data is valid", %{conn: conn, jwt: jwt, article: article} do
+    article_id = article.id
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
     conn = put conn, article_path(conn, :update, article), article: @update_attrs
-    assert %{"id" => ^id} = json_response(conn, 200)["article"]
+    assert %{"id" => ^article_id} = json_response(conn, 200)["article"]
 
-    conn = get conn, article_path(conn, :show, id)
+    conn = get conn, article_path(conn, :show, "some-updated-title")
     json = json_response(conn, 200)["article"]
 
     assert json == %{
-      "id" => id,
+      "id" => article_id,
       "body" => "some updated body",
       "description" => "some updated description",
       "slug" => "some-updated-title",
       "favoritesCount" => 0,
       "createdAt" => json["createdAt"],
       "updatedAt" => json["updatedAt"],
-      "title" => "some updated title"}
+      "title" => "some updated title",
+      "author" => %{},
+      "favorited" => false,
+      "tagList" => ["tag1", "tag2"]
+    }
   end
 
-  test "does not update chosen article and renders errors when data is invalid", %{conn: conn} do
-    article = fixture(:article)
+  test "does not update chosen article and renders errors when data is invalid",
+                                                      %{conn: conn, jwt: jwt, article: article} do
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
     conn = put conn, article_path(conn, :update, article), article: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
-  test "deletes chosen article", %{conn: conn} do
-    article = fixture(:article)
+  test "deletes chosen article", %{conn: conn, jwt: jwt, article: article} do
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
     conn = delete conn, article_path(conn, :delete, article)
     assert response(conn, 204)
     assert_error_sent 404, fn ->
