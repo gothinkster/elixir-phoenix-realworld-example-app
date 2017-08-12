@@ -11,6 +11,40 @@ We've gone to great lengths to adhere to the **[credo](https://github.com/rrrene
 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
+## Current Status
+
+- [x] Auth
+  - [x] Login
+  - [x] Login and remember token
+  - [x] Register
+  - [x] Current User
+  - [x] Update User
+- [x] Articles
+  - [x] All Articles
+  - [x] Articles by Author
+  - [x] Articles Favorited by Username
+  - [x] Articles by Tag
+  - [x] Single Article by Slug
+- [ ] Articles with Auth
+  - [ ] Feed
+  - [x] All Articles
+  - [x] Articles by Author
+  - [x] Articles Favorited by Username
+  - [x] Create Article
+  - [x] Delete Article
+  - [x] Update Article
+  - [ ] Favorite Article
+  - [ ] Unfavorite Article
+- [ ] Comments
+  - [x] Create Comment for Article
+  - [ ] All Comments for Article
+  - [ ] Delete Comment for Article
+- [x] Profiles
+  - [x] Profile
+  - [x] Follow Profile
+  - [x] Unfollow Profile
+- [x] Tags
+  - [x] All tags
 
 ## Getting started
 
