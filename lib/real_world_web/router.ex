@@ -8,7 +8,7 @@ defmodule RealWorldWeb.Router do
     plug Guardian.Plug.LoadResource
   end
 
-  scope "/api", RealWorldWeb do
+  scope "/", RealWorldWeb do
     pipe_through :api
 
     resources "/articles", ArticleController, except: [:new, :edit]
