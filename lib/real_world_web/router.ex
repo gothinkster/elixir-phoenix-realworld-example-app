@@ -12,8 +12,12 @@ defmodule RealWorldWeb.Router do
     pipe_through :api
 
     resources "/articles", ArticleController, except: [:new, :edit]
-    get "/tags", TagController, :index
 
+    get "/articles/:article/comments", CommentController, :index
+    post "/articles/:article/comments", CommentController, :create
+    delete "/articles/:article/comments/:id", CommentController, :delete
+
+    get "/tags", TagController, :index
     get "/user", UserController, :current_user
     put "/user", UserController, :update
     post "/users", UserController, :create
