@@ -11,11 +11,12 @@ defmodule RealWorldWeb.Router do
   scope "/", RealWorldWeb do
     pipe_through :api
 
-    resources "/articles", ArticleController, except: [:new, :edit]
+    resources "/articles", ArticleController, except: [:new, :edit] do
+      resources "/comments", CommentController, except: [:new, :edit]
+    end 
 
-    get "/articles/:article/comments", CommentController, :index
-    post "/articles/:article/comments", CommentController, :create
-    delete "/articles/:article/comments/:id", CommentController, :delete
+    #to allow comments_path in test
+    resources "/comments", CommentController, except: [:new, :edit]
 
     get "/tags", TagController, :index
     get "/user", UserController, :current_user

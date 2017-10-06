@@ -9,14 +9,14 @@ defmodule RealWorldWeb.CommentController do
 
   plug Guardian.Plug.EnsureAuthenticated, %{handler: RealWorldWeb.SessionController} when action in [:create, :update, :delete]
 
-  def index(conn, %{"article" => slug}, _user, _full_claims) do
+  def index(conn, %{"article_id" => slug}, _user, _full_claims) do
     article = Blog.get_article_by_slug!(slug)
     comments = Blog.list_comments(article)
     |> RealWorld.Repo.preload(:author)
     render(conn, "index.json", comments: comments)
   end
 
-  def create(conn, %{"article" => slug, "comment" => comment_params}, user, _full_claims) do
+  def create(conn, %{"article_id" => slug, "comment" => comment_params}, user, _full_claims) do
     article = Blog.get_article_by_slug!(slug)
     with {:ok, %Comment{} = comment} <- Blog.create_comment(comment_params |> Map.merge(%{"user_id" => user.id}) |> Map.merge(%{"article_id" => article.id})) do
       conn
@@ -25,12 +25,7 @@ defmodule RealWorldWeb.CommentController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    comment = Blog.get_comment!(id)
-    render(conn, "show.json", comment: comment)
-  end
-
-  def update(conn, %{"id" => id, "comment" => comment_params}) do
+  def update(conn, %{"id" => id, "comment" => comment_params}, user, _full_claims) do
     comment = Blog.get_comment!(id)
 
     with {:ok, %Comment{} = comment} <- Blog.update_comment(comment, comment_params) do
