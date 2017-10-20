@@ -1,6 +1,0 @@
-engines:
-  credo:
-    enabled: true
-
-pull_requests:
-  comments: false
