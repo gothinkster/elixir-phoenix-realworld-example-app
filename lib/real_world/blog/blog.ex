@@ -5,8 +5,8 @@ defmodule RealWorld.Blog do
 
   import Ecto.Query, warn: false
   alias RealWorld.Repo
-  alias RealWorld.Blog.Article
   alias RealWorld.Accounts.UserFollower
+  alias RealWorld.Blog.{Article, Comment, Favorite}
 
   @doc """
   Returns the list of articles.
@@ -24,7 +24,7 @@ defmodule RealWorld.Blog do
   def feed(user) do
       from(a in Article,
         join: uf in UserFollower, on: a.user_id == uf.follower_id,
-        where: uf.user_id == ^user.id) 
+        where: uf.user_id == ^user.id)
       |> Repo.all
 
   end
@@ -113,9 +113,6 @@ defmodule RealWorld.Blog do
   end
 
 
-
-  alias RealWorld.Blog.Comment
-
   @doc """
   Returns the list of comments.
 
@@ -129,7 +126,7 @@ defmodule RealWorld.Blog do
   #   Repo.all(Comment)
   # end
 
-  def list_comments(article) do 
+  def list_comments(article) do
     Repo.all(from c in Comment, where: c.article_id == ^article.id)
   end
 
@@ -213,5 +210,25 @@ defmodule RealWorld.Blog do
   """
   def change_comment(%Comment{} = comment) do
     Comment.changeset(comment, %{})
+  end
+
+  @doc """
+  Favorites an Article
+
+  ## Example
+
+  iex> favorite(article)
+  {:ok, %Favorite{}}
+  """
+  def favorite(user, article) do
+    favorite = %Favorite{}
+    params = %{
+      user_id: user.id,
+      article_id: article.id
+    }
+
+    favorite
+    |> Favorite.changeset(params)
+    |> Repo.insert()
   end
 end
