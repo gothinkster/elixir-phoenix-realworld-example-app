@@ -6,6 +6,7 @@ defmodule RealWorld.Blog do
   import Ecto.Query, warn: false
   alias RealWorld.Repo
   alias RealWorld.Blog.Article
+  alias RealWorld.Accounts.UserFollower
 
   @doc """
   Returns the list of articles.
@@ -18,6 +19,14 @@ defmodule RealWorld.Blog do
   """
   def list_articles do
     Repo.all(Article)
+  end
+
+  def feed(user) do
+      from(a in Article,
+        join: uf in UserFollower, on: a.user_id == uf.follower_id,
+        where: uf.user_id == ^user.id) 
+      |> Repo.all
+
   end
 
   def list_tags do

@@ -11,6 +11,7 @@ defmodule RealWorldWeb.Router do
   scope "/", RealWorldWeb do
     pipe_through :api
 
+    get "/articles/feed", ArticleController, :feed
     resources "/articles", ArticleController, except: [:new, :edit] do
       resources "/comments", CommentController, except: [:new, :edit]
     end 
