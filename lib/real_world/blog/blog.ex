@@ -112,7 +112,6 @@ defmodule RealWorld.Blog do
     end
   end
 
-
   @doc """
   Returns the list of comments.
 
@@ -230,5 +229,15 @@ defmodule RealWorld.Blog do
     favorite
     |> Favorite.changeset(params)
     |> Repo.insert()
+  end
+
+  def load_favorite(user, article) do
+    query = from f in Favorite,
+      where: f.user_id == ^user.id and f.article_id == ^article.id
+
+    case Repo.one(query) do
+      %Favorite{} -> Map.put(article, :favorited, true)
+      _ -> article
+    end
   end
 end
