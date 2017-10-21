@@ -15,6 +15,12 @@ defmodule RealWorldWeb.ArticleController do
     render(conn, "index.json", articles: articles)
   end
 
+  def feed(conn, _params, user, _full_claims) do
+    articles = Blog.feed(user)
+               |> RealWorld.Repo.preload(:author)
+    render(conn, "index.json", articles: articles)
+  end
+
   def create(conn, %{"article" => article_params}, user, _full_claims) do
     with {:ok, %Article{} = article} <- Blog.create_article(article_params |> Map.merge(%{"user_id" => user.id})) do
       conn

@@ -25,8 +25,8 @@ For more information on how to this works with other frontends/backends, head ov
   - [x] Articles Favorited by Username
   - [x] Articles by Tag
   - [x] Single Article by Slug
-- [ ] Articles with Auth
-  - [ ] Feed
+- [x] Articles with Auth
+  - [x] Feed
   - [x] All Articles
   - [x] Articles by Author
   - [x] Articles Favorited by Username
