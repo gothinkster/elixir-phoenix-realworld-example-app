@@ -22,4 +22,11 @@ defmodule RealWorld.Factory do
       author: build(:user)
     }
   end
+
+  def comment_factory do
+    %RealWorld.Blog.Comment{
+      body: "some body",
+      author: build(:user)
+    }
+  end
 end

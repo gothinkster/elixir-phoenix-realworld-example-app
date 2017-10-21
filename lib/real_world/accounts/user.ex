@@ -17,6 +17,7 @@ defmodule RealWorld.Accounts.User do
     field :image, :string
 
     has_many :articles, RealWorld.Blog.Article
+    has_many :comments, RealWorld.Blog.Comment
 
     timestamps inserted_at: :created_at
   end

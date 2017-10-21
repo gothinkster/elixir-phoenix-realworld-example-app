@@ -26,6 +26,7 @@ defmodule RealWorldWeb.ArticleController do
 
   def show(conn, %{"id" => slug}, _user, _full_claims) do
     article = Blog.get_article_by_slug!(slug)
+                   |> RealWorld.Repo.preload(:author)
     render(conn, "show.json", article: article)
   end
 
