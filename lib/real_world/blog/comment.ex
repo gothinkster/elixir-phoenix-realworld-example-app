@@ -8,8 +8,6 @@ defmodule RealWorld.Blog.Comment do
 
   @timestamps_opts [type: :utc_datetime]
   @required_fields ~w(body user_id article_id)a
-  #@optional_fields ~w(slug tag_list)a
-
 
   schema "comments" do
     field :body, :string

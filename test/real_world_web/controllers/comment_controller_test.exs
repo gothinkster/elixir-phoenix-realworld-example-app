@@ -5,7 +5,7 @@ defmodule RealWorldWeb.CommentControllerTest do
   alias RealWorld.Blog.Comment
   import RealWorld.Factory
 
-  @create_attrs %{body: "some body", user_id: 1, article_id: 1}
+  @create_attrs %{body: "some body"}
   @update_attrs %{body: "some updated body"}
   @invalid_attrs %{body: nil}
 
@@ -19,22 +19,22 @@ defmodule RealWorldWeb.CommentControllerTest do
     article = insert(:article, author: user)
     comment = insert(:comment, author: user, article: article)
     {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
-    {:ok, %{comment: comment, user: user, jwt: jwt}}
+    {:ok, %{comment: comment, user: user, article: article, jwt: jwt}}
   end
 
   describe "index" do
-    test "lists all comments", %{conn: conn, jwt: jwt} do
+    test "lists all comments", %{conn: conn, jwt: jwt, article: article} do
       conn = conn |> put_req_header("authorization", "Token #{jwt}")
-      conn = get conn, comment_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
+      conn = get conn, comment_path(conn, :index), article_id: article.slug
+      assert json_response(conn, 200)["comments"] != []
     end
   end
 
   describe "create comment" do
-    test "creates comment and renders comment when data is valid", %{conn: conn, jwt: jwt} do
+    test "creates comment and renders comment when data is valid", %{conn: conn, jwt: jwt, article: article} do
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = post conn, comment_path(conn, :create), comment: @create_attrs
-    json = json_response(conn, 201)["comment"]
+    conn = post conn, article_comment_path(conn, :create, article.slug), comment: @create_attrs
+    json_response(conn, 201)["comment"]
     end
   end
 
@@ -45,12 +45,7 @@ defmodule RealWorldWeb.CommentControllerTest do
     test "renders comment when data is valid", %{conn: conn, jwt: jwt, comment: %Comment{id: id} = comment} do
       conn = conn |> put_req_header("authorization", "Token #{jwt}")
       conn = put conn, comment_path(conn, :update, comment), comment: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-      conn = get conn, comment_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "body" => "some updated body"}
+      assert %{"id" => ^id, "body" => "some updated body"} = json_response(conn, 200)["comment"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, jwt: jwt, comment: comment} do

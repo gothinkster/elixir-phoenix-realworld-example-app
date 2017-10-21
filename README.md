@@ -1,7 +1,7 @@
 # ![RealWorld Example App](logo.png)
 [![Travis](https://travis-ci.org/lbighetti/elixir-phoenix-realworld.svg)](https://travis-ci.org/lbighetti/elixir-phoenix-realworld)
-[![Coveralls](https://coveralls.io/repos/github/lbighetti/elixir-phoenix-realworld/badge.svg?branch=master)](https://coveralls.io/github/lbighetti/elixir-phoenix-realworld?branch=master)
-[![Ebert](https://ebertapp.io/github/lbighetti/elixir-phoenix-realworld.svg)](https://ebertapp.io/github/lbighetti/elixir-phoenix-realworld)
+[![Coverage Status](https://coveralls.io/repos/github/lbighetti/elixir-phoenix-realworld/badge.svg)](https://coveralls.io/github/lbighetti/elixir-phoenix-realworld)
+
 > Elixir (Phoenix) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
 
 
@@ -35,10 +35,10 @@ For more information on how to this works with other frontends/backends, head ov
   - [x] Update Article
   - [ ] Favorite Article
   - [ ] Unfavorite Article
-- [ ] Comments
+- [x] Comments
   - [x] Create Comment for Article
-  - [ ] All Comments for Article
-  - [ ] Delete Comment for Article
+  - [x] All Comments for Article
+  - [x] Delete Comment for Article
 - [x] Profiles
   - [x] Profile
   - [x] Follow Profile
