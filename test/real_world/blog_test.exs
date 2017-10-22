@@ -65,7 +65,6 @@ defmodule RealWorld.BlogTest do
   end
 
   test "load_favorite/2 loads the favorite attribute in article", %{article: article, author: user} do
-
     insert(:favorite, article: article, user: user)
 
     article = Blog.load_favorite(article, user)
@@ -74,6 +73,18 @@ defmodule RealWorld.BlogTest do
 
   test "load_favorite/2 returns the article without user", %{article: article} do
     article = Blog.load_favorite(article, nil)
+    refute article.favorited
+  end
+
+  test "load_favorites/2 loads the favorite attribute in each article", %{article: article, author: user} do
+    insert(:favorite, article: article, user: user)
+
+    article = List.first(Blog.load_favorites([article], user))
+    assert article.favorited
+  end
+
+  test "load_favorites/2 returns the list of articles without user", %{article: article} do
+    article = List.first(Blog.load_favorites([article], nil))
     refute article.favorited
   end
 
