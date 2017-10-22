@@ -68,6 +68,34 @@ defmodule RealWorldWeb.ArticleControllerTest do
     }
   end
 
+  test "favorites the chosen article", %{conn: conn, jwt: jwt, article: article} do
+    article_id = article.id
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
+    conn = post conn, article_path(conn, :favorite, article)
+    assert %{"id" => ^article_id, "favorited" => true} = json_response(conn, 200)["article"]
+  end
+
+  test "returns the chosen article when is favorited by the user", %{conn: conn, jwt: jwt, article: article, user: user} do
+    insert(:favorite, user: user, article: article)
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
+    conn = get conn, article_path(conn, :show, article.slug)
+    json = json_response(conn, 200)["article"]
+
+    assert json == %{
+      "id" => article.id,
+      "body" => "some body",
+      "description" => "some description",
+      "slug" => "some-tile",
+      "favoritesCount" => 0,
+      "createdAt" => json["createdAt"],
+      "updatedAt" => json["updatedAt"],
+      "title" => "some title",
+      "author" => %{},
+      "favorited" => true,
+      "tagList" => ["tag1", "tag2"]
+    }
+  end
+
   test "does not update chosen article and renders errors when data is invalid",
                                                       %{conn: conn, jwt: jwt, article: article} do
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
