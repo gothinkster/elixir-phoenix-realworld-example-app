@@ -253,6 +253,12 @@ defmodule RealWorld.Blog do
     end
   end
 
+  def load_favorites(articles, nil), do: articles
+  def load_favorites(articles, user) do
+    articles
+    |> Enum.map(fn(article) -> load_favorite(article, user) end)
+  end
+
   defp find_favorite(%Article{} = article, %User{} = user) do
     query = from f in Favorite,
       where: f.article_id == ^article.id and f.user_id == ^user.id
