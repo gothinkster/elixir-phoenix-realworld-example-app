@@ -80,7 +80,11 @@ defmodule RealWorldWeb.ArticleController do
               |> Blog.get_article_by_slug!
 
     with {:ok, _} <- Blog.unfavorite(article, user) do
-      send_resp(conn, :no_content, "")
+      article = article
+                |> Repo.preload([:author, :favorites])
+                |> Blog.load_favorite(user)
+
+      render(conn, "show.json", article: Blog.load_favorite(article, user))
     end
   end
 

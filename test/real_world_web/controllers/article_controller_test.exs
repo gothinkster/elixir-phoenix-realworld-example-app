@@ -105,7 +105,25 @@ defmodule RealWorldWeb.ArticleControllerTest do
 
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
     conn = delete conn, article_path(conn, :unfavorite, article.slug)
-    assert response(conn, 204)
+    json = json_response(conn, 200)["article"]
+
+    assert json == %{
+      "id" => article.id,
+      "body" => "some body",
+      "description" => "some description",
+      "slug" => "some-tile",
+      "favoritesCount" => 0,
+      "createdAt" => json["createdAt"],
+      "updatedAt" => json["updatedAt"],
+      "title" => "some title",
+      "author" => %{
+        "bio" => "some bio",
+        "image" => "some image",
+        "username" => "john"
+      },
+      "favorited" => false,
+      "tagList" => ["tag1", "tag2"]
+    }
   end
 
   test "does not update chosen article and renders errors when data is invalid",
