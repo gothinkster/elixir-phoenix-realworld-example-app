@@ -16,7 +16,7 @@ defmodule RealWorldWeb.ArticleView do
     |> Map.from_struct
     |> Map.put(:created_at, datetime_to_iso8601(article.created_at))
     |> Map.put(:updated_at, datetime_to_iso8601(article.updated_at))
-    |> Map.put(:favorites_count, 0)
+    |> Map.put(:favorites_count, length(article.favorites))
     |> Map.put(:favorited, !!article.favorited)
     |> Map.take([:id, :body, :description, :title, :slug, :favorites_count, :favorited, :author, :tag_list, :created_at, :updated_at])
     |> Map.put(:author, UserView.render("author.json", user: article.author))

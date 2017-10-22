@@ -33,7 +33,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
       "updatedAt" => json["updatedAt"],
       "favoritesCount" => 0,
       "title" => "some title",
-      "author" => %{},
+      "author" => %{"bio" => "some bio", "image" => "some image", "username" => "john"},
       "favorited" => false,
       "tagList" => nil}
   end
@@ -86,7 +86,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
       "body" => "some body",
       "description" => "some description",
       "slug" => "some-tile",
-      "favoritesCount" => 0,
+      "favoritesCount" => 1,
       "createdAt" => json["createdAt"],
       "updatedAt" => json["updatedAt"],
       "title" => "some title",
