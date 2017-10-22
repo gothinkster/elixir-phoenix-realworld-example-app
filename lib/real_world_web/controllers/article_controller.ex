@@ -62,9 +62,9 @@ defmodule RealWorldWeb.ArticleController do
     end
   end
 
-  def favorite(conn, %{"slug" => id}, user, _) do
-    article = id
-              |> Blog.get_article!
+  def favorite(conn, %{"slug" => slug}, user, _) do
+    article = slug
+              |> Blog.get_article_by_slug!
               |> Repo.preload([:author, :favorites])
 
     with {:ok, %Favorite{}} <- Blog.favorite(user, article) do
@@ -72,8 +72,9 @@ defmodule RealWorldWeb.ArticleController do
     end
   end
 
-  def unfavorite(conn, %{"slug" => id}, user, _) do
-    article = Blog.get_article!(id)
+  def unfavorite(conn, %{"slug" => slug}, user, _) do
+    article = slug
+              |> Blog.get_article_by_slug!
 
     with {:ok, _} <- Blog.unfavorite(article, user) do
       send_resp(conn, :no_content, "")
