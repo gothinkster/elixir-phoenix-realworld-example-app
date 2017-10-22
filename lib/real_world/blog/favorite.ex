@@ -6,7 +6,7 @@ defmodule RealWorld.Blog.Favorite do
   use Ecto.Schema
   import Ecto.Changeset
   alias RealWorld.Accounts.User
-  alias RealWorld.Blog.{Article,Favorite}
+  alias RealWorld.Blog.{Article, Favorite}
 
   @required_fields ~w(user_id article_id)a
 

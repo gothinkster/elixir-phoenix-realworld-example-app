@@ -12,7 +12,10 @@ defmodule RealWorldWeb.CommentController do
   def index(conn, %{"article_id" => slug}, _user, _full_claims) do
     article = Blog.get_article_by_slug!(slug)
     comments = Blog.list_comments(article)
-    |> RealWorld.Repo.preload(:author)
+    
+    comments =
+      comments
+      |> RealWorld.Repo.preload(:author)
     render(conn, "index.json", comments: comments)
   end
 

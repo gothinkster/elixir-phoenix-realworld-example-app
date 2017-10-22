@@ -33,8 +33,8 @@ For more information on how to this works with other frontends/backends, head ov
   - [x] Create Article
   - [x] Delete Article
   - [x] Update Article
-  - [ ] Favorite Article
-  - [ ] Unfavorite Article
+  - [x] Favorite Article
+  - [x] Unfavorite Article
 - [x] Comments
   - [x] Create Comment for Article
   - [x] All Comments for Article
