@@ -14,4 +14,5 @@ services:
 env:
   - MIX_ENV=test
 
-script: mix test
+script:
+  - mix test && mix coveralls.travis
