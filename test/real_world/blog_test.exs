@@ -71,4 +71,9 @@ defmodule RealWorld.BlogTest do
     article = Blog.load_favorite(article, user)
     assert article.favorited
   end
+
+  test "load_favorite/2 returns the article without user", %{article: article} do
+    article = Blog.load_favorite(article, nil)
+    refute article.favorited
+  end
 end
