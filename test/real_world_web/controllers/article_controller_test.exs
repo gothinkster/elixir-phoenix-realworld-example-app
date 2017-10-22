@@ -90,7 +90,11 @@ defmodule RealWorldWeb.ArticleControllerTest do
       "createdAt" => json["createdAt"],
       "updatedAt" => json["updatedAt"],
       "title" => "some title",
-      "author" => %{},
+      "author" => %{
+        "bio" => "some bio",
+        "image" => "some image",
+        "username" => "john"
+      },
       "favorited" => true,
       "tagList" => ["tag1", "tag2"]
     }
