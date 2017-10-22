@@ -65,9 +65,12 @@ defmodule RealWorldWeb.ArticleController do
   def favorite(conn, %{"slug" => slug}, user, _) do
     article = slug
               |> Blog.get_article_by_slug!
-              |> Repo.preload([:author, :favorites])
 
     with {:ok, %Favorite{}} <- Blog.favorite(user, article) do
+      article = article
+                |> Repo.preload([:author, :favorites])
+                |> Blog.load_favorite(user)
+
       render(conn, "show.json", article: Blog.load_favorite(article, user))
     end
   end
