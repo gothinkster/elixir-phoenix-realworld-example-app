@@ -29,4 +29,11 @@ defmodule RealWorld.Factory do
       author: build(:user)
     }
   end
+
+  def favorite_factory do
+    %RealWorld.Blog.Favorite{
+      user: build(:user),
+      article: build(:article)
+    }
+  end
 end

@@ -33,7 +33,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
       "updatedAt" => json["updatedAt"],
       "favoritesCount" => 0,
       "title" => "some title",
-      "author" => %{},
+      "author" => %{"bio" => "some bio", "image" => "some image", "username" => "john"},
       "favorited" => false,
       "tagList" => nil}
   end
@@ -66,6 +66,46 @@ defmodule RealWorldWeb.ArticleControllerTest do
       "favorited" => false,
       "tagList" => ["tag1", "tag2"]
     }
+  end
+
+  test "favorites the chosen article", %{conn: conn, jwt: jwt, article: article} do
+    article_id = article.id
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
+    conn = post conn, article_path(conn, :favorite, article)
+    assert %{"id" => ^article_id, "favorited" => true} = json_response(conn, 200)["article"]
+  end
+
+  test "returns the chosen article when is favorited by the user", %{conn: conn, jwt: jwt, article: article, user: user} do
+    insert(:favorite, user: user, article: article)
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
+    conn = get conn, article_path(conn, :show, article.slug)
+    json = json_response(conn, 200)["article"]
+
+    assert json == %{
+      "id" => article.id,
+      "body" => "some body",
+      "description" => "some description",
+      "slug" => "some-tile",
+      "favoritesCount" => 1,
+      "createdAt" => json["createdAt"],
+      "updatedAt" => json["updatedAt"],
+      "title" => "some title",
+      "author" => %{
+        "bio" => "some bio",
+        "image" => "some image",
+        "username" => "john"
+      },
+      "favorited" => true,
+      "tagList" => ["tag1", "tag2"]
+    }
+  end
+
+  test "deletes the given article favorited by the user", %{conn: conn, jwt: jwt, article: article, user: user} do
+    insert(:favorite, user: user, article: article)
+
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
+    conn = delete conn, article_path(conn, :unfavorite, article)
+    assert response(conn, 204)
   end
 
   test "does not update chosen article and renders errors when data is invalid",

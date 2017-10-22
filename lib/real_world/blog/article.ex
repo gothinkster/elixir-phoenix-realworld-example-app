@@ -5,6 +5,8 @@ defmodule RealWorld.Blog.Article do
 
   use Ecto.Schema
   import Ecto.Changeset
+  alias RealWorld.Accounts.User
+  alias RealWorld.Blog.{Article, Favorite}
 
   @timestamps_opts [type: :utc_datetime]
   @required_fields ~w(title description body user_id)a
@@ -16,14 +18,16 @@ defmodule RealWorld.Blog.Article do
     field :title, :string
     field :slug, :string
     field :tag_list, {:array, :string}
+    field :favorited, :boolean, virtual: true
 
-    belongs_to :author, RealWorld.Accounts.User, foreign_key: :user_id
+    belongs_to :author, User, foreign_key: :user_id
+    has_many :favorites, Favorite
 
     timestamps inserted_at: :created_at
   end
 
 
-  def changeset(%RealWorld.Blog.Article{} = article, attrs) do
+  def changeset(%Article{} = article, attrs) do
     article
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
@@ -45,5 +49,4 @@ defmodule RealWorld.Blog.Article do
     |> String.downcase()
     |> String.replace(~r/[^\w-]+/u, "-")
   end
-
 end

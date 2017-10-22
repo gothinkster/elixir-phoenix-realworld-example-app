@@ -14,10 +14,13 @@ defmodule RealWorldWeb.Router do
     get "/articles/feed", ArticleController, :feed
     resources "/articles", ArticleController, except: [:new, :edit] do
       resources "/comments", CommentController, except: [:new, :edit]
-    end 
+    end
 
     #to allow comments_path in test
     resources "/comments", CommentController, except: [:new, :edit]
+
+    post "/articles/:slug/favorite", ArticleController, :favorite
+    delete "/articles/:slug/favorite", ArticleController, :unfavorite
 
     get "/tags", TagController, :index
     get "/user", UserController, :current_user
