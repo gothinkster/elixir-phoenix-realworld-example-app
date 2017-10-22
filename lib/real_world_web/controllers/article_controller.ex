@@ -2,7 +2,7 @@ defmodule RealWorldWeb.ArticleController do
   use RealWorldWeb, :controller
   use Guardian.Phoenix.Controller
 
-  alias RealWorld.Blog
+  alias RealWorld.{Blog, Repo}
   alias RealWorld.Blog.{Article, Favorite}
 
   action_fallback RealWorldWeb.FallbackController
@@ -14,14 +14,14 @@ defmodule RealWorldWeb.ArticleController do
 
   def index(conn, _params, _user, _full_claims) do
     articles = Blog.list_articles()
-               |> RealWorld.Repo.preload(:author)
+               |> Repo.preload(:author)
     render(conn, "index.json", articles: articles)
   end
 
   def feed(conn, _params, user, _full_claims) do
     articles = user
                |> Blog.feed
-               |> RealWorld.Repo.preload(:author)
+               |> Repo.preload(:author)
     render(conn, "index.json", articles: articles)
   end
 
@@ -37,7 +37,7 @@ defmodule RealWorldWeb.ArticleController do
   def show(conn, %{"id" => slug}, user, _full_claims) do
     article = slug
               |> Blog.get_article_by_slug!
-              |> RealWorld.Repo.preload(:author)
+              |> Repo.preload(:author)
               |> Blog.load_favorite(user)
 
     render(conn, "show.json", article: article)
