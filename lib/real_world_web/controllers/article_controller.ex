@@ -12,9 +12,10 @@ defmodule RealWorldWeb.ArticleController do
       :create, :update, :delete, :favorite
     ]
 
-  def index(conn, _params, _user, _full_claims) do
+  def index(conn, _params, user, _full_claims) do
     articles = Blog.list_articles()
                |> Repo.preload([:author, :favorites])
+               |> Blog.load_favorites(user)
     render(conn, "index.json", articles: articles)
   end
 
