@@ -22,5 +22,6 @@ defmodule RealWorld.Blog.Favorite do
     favorite
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
+    |> unique_constraint(:user_id, name: :favorites_user_id_article_id_index)
   end
 end
