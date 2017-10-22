@@ -35,11 +35,10 @@ defmodule RealWorld.Accounts.Users do
   end
 
   def is_following?(user, follower) do
-    cond do
-      user != nil && follower != nil ->
-        (UserFollower |> Repo.get_by(user_id: user.id, follower_id: follower.id)) != nil
-      true ->
-        nil
+    if user != nil && follower != nil do
+      (UserFollower |> Repo.get_by(user_id: user.id, follower_id: follower.id)) != nil
+    else
+      nil
     end
   end
 

@@ -22,9 +22,10 @@ defmodule RealWorld.Blog do
   end
 
   def feed(user) do
-      from(a in Article,
-        join: uf in UserFollower, on: a.user_id == uf.follower_id,
-        where: uf.user_id == ^user.id)
+      query = from(a in Article,
+              join: uf in UserFollower, on: a.user_id == uf.follower_id,
+              where: uf.user_id == ^user.id)
+      query
       |> Repo.all
   end
 
