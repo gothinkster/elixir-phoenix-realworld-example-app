@@ -20,6 +20,7 @@ defmodule RealWorldWeb.Router do
     resources "/comments", CommentController, except: [:new, :edit]
 
     post "/articles/:slug/favorite", ArticleController, :favorite
+    delete "/articles/:slug/favorite", ArticleController, :unfavorite
 
     get "/tags", TagController, :index
     get "/user", UserController, :current_user

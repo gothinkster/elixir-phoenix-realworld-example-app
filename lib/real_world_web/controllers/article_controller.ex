@@ -61,6 +61,14 @@ defmodule RealWorldWeb.ArticleController do
     end
   end
 
+  def unfavorite(conn, %{"slug" => id}, user, _) do
+    article = Blog.get_article!(id)
+
+    with {:ok, _} <- Blog.unfavorite(article, user) do
+      send_resp(conn, :no_content, "")
+    end
+  end
+
   def delete(conn, %{"id" => slug}, _user, _full_claims) do
     Blog.delete_article(slug)
     send_resp(conn, :no_content, "")
