@@ -66,9 +66,9 @@ defmodule RealWorld.BlogTest do
 
   test "load_favorite/2 loads the favorite attribute in article", %{article: article, author: user} do
 
-    favorite = insert(:favorite, article: article, user: user)
+    insert(:favorite, article: article, user: user)
 
-    article = Blog.load_favorite(user, article)
+    article = Blog.load_favorite(article, user)
     assert article.favorited
   end
 end

@@ -231,7 +231,7 @@ defmodule RealWorld.Blog do
     |> Repo.insert()
   end
 
-  def load_favorite(user, article) do
+  def load_favorite(article, user) do
     query = from f in Favorite,
       where: f.user_id == ^user.id and f.article_id == ^article.id
 
