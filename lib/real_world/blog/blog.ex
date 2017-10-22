@@ -5,7 +5,7 @@ defmodule RealWorld.Blog do
 
   import Ecto.Query, warn: false
   alias RealWorld.Repo
-  alias RealWorld.Accounts.UserFollower
+  alias RealWorld.Accounts.{User, UserFollower}
   alias RealWorld.Blog.{Article, Comment, Favorite}
 
   @doc """
@@ -26,7 +26,6 @@ defmodule RealWorld.Blog do
         join: uf in UserFollower, on: a.user_id == uf.follower_id,
         where: uf.user_id == ^user.id)
       |> Repo.all
-
   end
 
   def list_tags do
@@ -212,6 +211,20 @@ defmodule RealWorld.Blog do
   end
 
   @doc """
+  Unfavorites an Article
+
+  ## Example
+
+  iex> unfavorite(article)
+  {:ok, %Favorite{}}
+  """
+  def unfavorite(article, user) do
+    article
+    |> find_favorite(user)
+    |> Repo.delete()
+  end
+
+  @doc """
   Favorites an Article
 
   ## Example
@@ -233,12 +246,16 @@ defmodule RealWorld.Blog do
 
   def load_favorite(article, nil), do: article
   def load_favorite(article, user) do
-    query = from f in Favorite,
-      where: f.user_id == ^user.id and f.article_id == ^article.id
-
-    case Repo.one(query) do
+    case find_favorite(article, user) do
       %Favorite{} -> Map.put(article, :favorited, true)
       _ -> article
     end
+  end
+
+  defp find_favorite(%Article{} = article, %User{} = user) do
+    query = from f in Favorite,
+      where: f.article_id == ^article.id and f.user_id == ^user.id
+
+    Repo.one(query)
   end
 end
