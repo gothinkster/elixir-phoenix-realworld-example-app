@@ -16,15 +16,15 @@ defmodule RealWorld.Accounts.Users do
     |> Repo.update
   end
 
-  def follow(user, follower) do
+  def follow(user, followee) do
     %UserFollower{}
-    |> UserFollower.changeset(%{user_id: user.id, follower_id: follower.id})
+    |> UserFollower.changeset(%{user_id: user.id, followee_id: followee.id})
     |> Repo.insert()
   end
 
-  def unfollow(user, follower) do
+  def unfollow(user, followee) do
     relation = UserFollower
-    |> Repo.get_by(user_id: user.id, follower_id: follower.id)
+    |> Repo.get_by(user_id: user.id, followee_id: followee.id)
 
     case relation do
       nil ->
@@ -34,9 +34,9 @@ defmodule RealWorld.Accounts.Users do
     end
   end
 
-  def is_following?(user, follower) do
-    if user != nil && follower != nil do
-      (UserFollower |> Repo.get_by(user_id: user.id, follower_id: follower.id)) != nil
+  def is_following?(user, followee) do
+    if user != nil && followee != nil do
+      (UserFollower |> Repo.get_by(user_id: user.id, followee_id: followee.id)) != nil
     else
       nil
     end

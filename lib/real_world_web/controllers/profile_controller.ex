@@ -23,13 +23,13 @@ defmodule RealWorldWeb.ProfileController do
 
   def follow(conn, %{"username" => username}, current_user, _) do
     case Users.get_by_username(username) do
-      follower = %User{} ->
+      followee = %User{} ->
         current_user
-        |> Users.follow(follower)
+        |> Users.follow(followee)
 
         conn
         |> put_status(:ok)
-        |> render("show.json", user: follower, following: Users.is_following?(current_user, follower))
+        |> render("show.json", user: followee, following: Users.is_following?(current_user, followee))
       nil ->
         conn
         |> put_status(:not_found)
@@ -39,13 +39,13 @@ defmodule RealWorldWeb.ProfileController do
 
   def unfollow(conn, %{"username" => username}, current_user, _) do
     case Users.get_by_username(username) do
-      follower = %User{} ->
+      followee = %User{} ->
         current_user
-        |> Users.unfollow(follower)
+        |> Users.unfollow(followee)
 
         conn
         |> put_status(:ok)
-        |> render("show.json", user: follower, following: Users.is_following?(current_user, follower))
+        |> render("show.json", user: followee, following: Users.is_following?(current_user, followee))
       nil ->
         conn
         |> put_status(:not_found)

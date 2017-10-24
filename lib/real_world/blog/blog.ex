@@ -23,7 +23,7 @@ defmodule RealWorld.Blog do
 
   def feed(user) do
       query = from(a in Article,
-              join: uf in UserFollower, on: a.user_id == uf.follower_id,
+              join: uf in UserFollower, on: a.user_id == uf.followee_id,
               where: uf.user_id == ^user.id)
       query
       |> Repo.all
