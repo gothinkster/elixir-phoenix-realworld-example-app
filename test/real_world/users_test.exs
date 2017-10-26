@@ -9,4 +9,9 @@ defmodule RealWorld.Accounts.AuthTest do
   test "register/1 creates a user" do
     Auth.register(@user_create_attrs)
   end
+
+  test "register/1 returns error if email is used already" do
+    Auth.register(@user_create_attrs)
+    assert {:error, _} = Auth.register(@user_create_attrs)
+  end
 end

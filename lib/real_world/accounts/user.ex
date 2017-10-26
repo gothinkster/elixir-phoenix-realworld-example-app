@@ -10,7 +10,7 @@ defmodule RealWorld.Accounts.User do
   @optional_fields ~w(bio image)a
 
   schema "users" do
-    field :email, :string
+    field :email, :string, unique: true
     field :password, :string
     field :username, :string, unique: true
     field :bio, :string
@@ -27,6 +27,7 @@ defmodule RealWorld.Accounts.User do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> unique_constraint(:username, name: :users_username_index)
+    |> unique_constraint(:email)
   end
 
 end
