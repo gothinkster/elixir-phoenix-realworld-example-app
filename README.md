@@ -13,8 +13,8 @@ For more information on how to this works with other frontends/backends, head ov
 1. Install [phoenix](http://www.phoenixframework.org/docs/installation) as well as all the other dependencies (erlang, elixir, postgresql).
 1. Clone the repo.
 1. Run the following commands in the project directory:
-    - `mix deps.get` to install dependencies.
     - `cp config/dev.exs.example config/dev.exs` and setup with your database credentials.
+    - `mix deps.get` to install dependencies.
     - `mix ecto.create` to create the database.
     - `mix ecto.migrate` to run the database migrations.
     - `mix phx.server` to run the application.
