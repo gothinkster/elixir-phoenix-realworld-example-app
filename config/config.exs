@@ -22,14 +22,14 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :guardian, Guardian,
-  allowed_algos: ["HS256"],
+config :real_world, RealWorldWeb.Guardian,
   issuer: "RealWorld",
+  secret_key: "MDLMflIpKod5YCnkdiY7C4E3ki2rgcAAMwfBl0+vyC5uqJNgoibfQmAh7J3uZWVK",
+  # optional
+  allowed_algos: ["HS256"],
   ttl: { 30, :days },
   allowed_drift: 2000,
-  verify_issuer: true, # optional
-  secret_key: "MDLMflIpKod5YCnkdiY7C4E3ki2rgcAAMwfBl0+vyC5uqJNgoibfQmAh7J3uZWVK",
-  serializer: RealWorld.GuardianSerializer
+  verify_issuer: true
 
 # Configure bcrypt for passwords
 config :comeonin, :bcrypt_log_rounds, 4

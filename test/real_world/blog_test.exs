@@ -14,7 +14,7 @@ defmodule RealWorld.BlogTest do
   setup do
     user = insert(:user)
     article = insert(:article, author: user)
-    {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
+    {:ok, jwt, _full_claims} = RealWorldWeb.Guardian.encode_and_sign(user)
     {:ok, %{author: user, article: article, jwt: jwt}}
   end
 

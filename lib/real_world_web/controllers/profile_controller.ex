@@ -1,14 +1,14 @@
 defmodule RealWorldWeb.ProfileController do
   use RealWorldWeb, :controller
-  use Guardian.Phoenix.Controller
+  use RealWorldWeb.GuardedController
 
   alias RealWorld.Accounts.{Users, User}
 
   action_fallback RealWorldWeb.FallbackController
 
-  plug Guardian.Plug.EnsureAuthenticated, %{handler: RealWorldWeb.SessionController} when action in [:follow, :unfollow]
+  plug Guardian.Plug.EnsureAuthenticated when action in [:follow, :unfollow]
 
-  def show(conn, %{"username" => username}, current_user, _) do
+  def show(conn, %{"username" => username}, current_user) do
     case Users.get_by_username(username) do
       user = %User{} ->
         conn
@@ -21,7 +21,7 @@ defmodule RealWorldWeb.ProfileController do
     end
   end
 
-  def follow(conn, %{"username" => username}, current_user, _) do
+  def follow(conn, %{"username" => username}, current_user) do
     case Users.get_by_username(username) do
       followee = %User{} ->
         current_user
@@ -37,7 +37,7 @@ defmodule RealWorldWeb.ProfileController do
     end
   end
 
-  def unfollow(conn, %{"username" => username}, current_user, _) do
+  def unfollow(conn, %{"username" => username}, current_user) do
     case Users.get_by_username(username) do
       followee = %User{} ->
         current_user

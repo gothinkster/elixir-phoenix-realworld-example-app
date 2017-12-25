@@ -4,8 +4,10 @@ defmodule RealWorldWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug ProperCase.Plug.SnakeCaseParams
+    plug Guardian.Plug.Pipeline, error_handler: RealWorldWeb.SessionController,
+                                 module: RealWorldWeb.Guardian
     plug Guardian.Plug.VerifyHeader, realm: "Token"
-    plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.LoadResource, allow_blank: true
   end
 
   scope "/", RealWorldWeb do

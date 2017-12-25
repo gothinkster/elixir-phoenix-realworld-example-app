@@ -1,32 +1,31 @@
 defmodule RealWorldWeb.ArticleController do
   use RealWorldWeb, :controller
-  use Guardian.Phoenix.Controller
+  use RealWorldWeb.GuardedController
 
   alias RealWorld.{Blog, Repo}
   alias RealWorld.Blog.{Article, Favorite}
 
   action_fallback RealWorldWeb.FallbackController
 
-  plug Guardian.Plug.EnsureAuthenticated,
-    %{handler: RealWorldWeb.SessionController} when action in [
-      :create, :update, :delete, :favorite
-    ]
+  plug Guardian.Plug.EnsureAuthenticated when action in [
+    :create, :update, :delete, :favorite
+  ]
 
-  def index(conn, _params, user, _full_claims) do
+  def index(conn, _params, user) do
     articles = Blog.list_articles()
                |> Repo.preload([:author, :favorites])
                |> Blog.load_favorites(user)
     render(conn, "index.json", articles: articles)
   end
 
-  def feed(conn, _params, user, _full_claims) do
+  def feed(conn, _params, user) do
     articles = user
                |> Blog.feed
                |> Repo.preload([:author, :favorites])
     render(conn, "index.json", articles: articles)
   end
 
-  def create(conn, %{"article" => params}, user, _full_claims) do
+  def create(conn, %{"article" => params}, user) do
     with {:ok, %Article{} = article} <- Blog.create_article(create_params(params, user)) do
       article = article
                 |> Repo.preload([:author, :favorites])
@@ -43,7 +42,7 @@ defmodule RealWorldWeb.ArticleController do
     |> Map.merge(%{"user_id" => user.id})
   end
 
-  def show(conn, %{"id" => slug}, user, _full_claims) do
+  def show(conn, %{"id" => slug}, user) do
     article = slug
               |> Blog.get_article_by_slug!
               |> Repo.preload([:author, :favorites])
@@ -52,7 +51,7 @@ defmodule RealWorldWeb.ArticleController do
     render(conn, "show.json", article: article)
   end
 
-  def update(conn, %{"id" => id, "article" => article_params}, user, _full_claims) do
+  def update(conn, %{"id" => id, "article" => article_params}, user) do
     article = id
               |> Blog.get_article!
               |> Repo.preload([:author, :favorites])
@@ -63,7 +62,7 @@ defmodule RealWorldWeb.ArticleController do
     end
   end
 
-  def favorite(conn, %{"slug" => slug}, user, _) do
+  def favorite(conn, %{"slug" => slug}, user) do
     article = slug
               |> Blog.get_article_by_slug!
 
@@ -76,7 +75,7 @@ defmodule RealWorldWeb.ArticleController do
     end
   end
 
-  def unfavorite(conn, %{"slug" => slug}, user, _) do
+  def unfavorite(conn, %{"slug" => slug}, user) do
     article = slug
               |> Blog.get_article_by_slug!
 
@@ -89,7 +88,7 @@ defmodule RealWorldWeb.ArticleController do
     end
   end
 
-  def delete(conn, %{"id" => slug}, _user, _full_claims) do
+  def delete(conn, %{"id" => slug}, _user) do
     Blog.delete_article(slug)
     send_resp(conn, :no_content, "")
   end

@@ -13,7 +13,7 @@ defmodule RealWorldWeb.UserControllerTest do
 
   def secure_conn(conn) do
     user = fixture(:user)
-    {:ok, jwt, _} = user |> Guardian.encode_and_sign(:token)
+    {:ok, jwt, _} = user |> RealWorldWeb.Guardian.encode_and_sign(%{}, token_type: :token)
 
     conn
     |> put_req_header("accept", "application/json")
