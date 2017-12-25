@@ -100,7 +100,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
     }
   end
 
-  test "deletes the given article favorited by the user", %{conn: conn, jwt: jwt, article: article, user: user} do
+  test "unfavorites an article favorited by the user", %{conn: conn, jwt: jwt, article: article, user: user} do
     insert(:favorite, user: user, article: article)
 
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
