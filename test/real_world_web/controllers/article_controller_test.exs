@@ -141,4 +141,13 @@ defmodule RealWorldWeb.ArticleControllerTest do
       get conn, article_path(conn, :show, article)
     end
   end
+
+  test "deletes chosen article previously favorited by an user",
+                                                      %{conn: conn, jwt: jwt, article: article, user: user} do
+    insert(:favorite, user: user, article: article)
+
+    conn = conn |> put_req_header("authorization", "Token #{jwt}")
+    conn = delete conn, article_path(conn, :delete, article.slug)
+    assert response(conn, 204)
+  end
 end
