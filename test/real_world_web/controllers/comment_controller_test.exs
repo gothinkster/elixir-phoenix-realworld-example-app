@@ -18,7 +18,7 @@ defmodule RealWorldWeb.CommentControllerTest do
     user = insert(:user)
     article = insert(:article, author: user)
     comment = insert(:comment, author: user, article: article)
-    {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
+    {:ok, jwt, _full_claims} = RealWorldWeb.Guardian.encode_and_sign(user)
     {:ok, %{comment: comment, user: user, article: article, jwt: jwt}}
   end
 

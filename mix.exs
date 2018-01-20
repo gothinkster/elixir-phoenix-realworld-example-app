@@ -40,7 +40,7 @@ defmodule RealWorld.Mixfile do
       {:proper_case, "~> 1.0.0"},
       {:cowboy, "~> 1.1"},
       {:comeonin, "~> 3.2"},
-      {:guardian, "~> 0.14.5"},
+      {:guardian, "~> 1.0"},
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
       {:credo, "~> 0.8.5", only: [:dev, :test]},
       {:ex_machina, "~> 2.0", only: :test},

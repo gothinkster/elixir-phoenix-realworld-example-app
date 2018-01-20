@@ -8,7 +8,7 @@ defmodule RealWorldWeb.SessionController do
   def create(conn, params) do
     case Auth.find_user_and_check_password(params) do
       {:ok, user} ->
-        {:ok, jwt, _full_claims} = user |> Guardian.encode_and_sign(:token)
+        {:ok, jwt, _full_claims} = user |> RealWorldWeb.Guardian.encode_and_sign(%{}, token_type: :token)
 
         conn
         |> put_status(:created)
@@ -20,7 +20,7 @@ defmodule RealWorldWeb.SessionController do
     end
   end
 
-  def unauthenticated(conn, _params) do
+  def auth_error(conn, {_type, _reason}, _opts) do
     conn
     |> put_status(:forbidden)
     |> render(RealWorldWeb.UserView, "error.json", message: "Not Authenticated")
