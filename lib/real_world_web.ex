@@ -28,8 +28,9 @@ defmodule RealWorldWeb do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/real_world_web/templates",
-                        namespace: RealWorldWeb
+      use Phoenix.View,
+        root: "lib/real_world_web/templates",
+        namespace: RealWorldWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]

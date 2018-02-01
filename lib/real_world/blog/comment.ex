@@ -10,11 +10,11 @@ defmodule RealWorld.Blog.Comment do
   @required_fields ~w(body user_id article_id)a
 
   schema "comments" do
-    field :body, :string
+    field(:body, :string)
 
-    belongs_to :article, Article, foreign_key: :article_id
-    belongs_to :author, User, foreign_key: :user_id
-    timestamps inserted_at: :created_at
+    belongs_to(:article, Article, foreign_key: :article_id)
+    belongs_to(:author, User, foreign_key: :user_id)
+    timestamps(inserted_at: :created_at)
   end
 
   @doc false

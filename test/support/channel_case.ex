@@ -25,13 +25,13 @@ defmodule RealWorldWeb.ChannelCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(RealWorld.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(RealWorld.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end

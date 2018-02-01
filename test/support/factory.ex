@@ -1,5 +1,4 @@
 defmodule RealWorld.Factory do
-
   use ExMachina.Ecto, repo: RealWorld.Repo
 
   def user_factory do

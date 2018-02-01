@@ -3,14 +3,14 @@ defmodule RealWorld.Repo.Migrations.CreateRealWorld.Blog.Article do
 
   def change do
     create table(:articles) do
-      add :title, :string
-      add :description, :string
-      add :body, :text
-      add :slug, :string
+      add(:title, :string)
+      add(:description, :string)
+      add(:body, :text)
+      add(:slug, :string)
 
-      timestamps inserted_at: :created_at
+      timestamps(inserted_at: :created_at)
     end
 
-    create unique_index(:articles, [:slug])
+    create(unique_index(:articles, [:slug]))
   end
 end

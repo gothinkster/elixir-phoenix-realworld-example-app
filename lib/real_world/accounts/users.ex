@@ -13,7 +13,7 @@ defmodule RealWorld.Accounts.Users do
   def update_user(user, attrs) do
     user
     |> User.changeset(attrs)
-    |> Repo.update
+    |> Repo.update()
   end
 
   def follow(user, followee) do
@@ -23,12 +23,14 @@ defmodule RealWorld.Accounts.Users do
   end
 
   def unfollow(user, followee) do
-    relation = UserFollower
-    |> Repo.get_by(user_id: user.id, followee_id: followee.id)
+    relation =
+      UserFollower
+      |> Repo.get_by(user_id: user.id, followee_id: followee.id)
 
     case relation do
       nil ->
         false
+
       relation ->
         Repo.delete(relation)
     end
@@ -36,10 +38,9 @@ defmodule RealWorld.Accounts.Users do
 
   def is_following?(user, followee) do
     if user != nil && followee != nil do
-      (UserFollower |> Repo.get_by(user_id: user.id, followee_id: followee.id)) != nil
+      UserFollower |> Repo.get_by(user_id: user.id, followee_id: followee.id) != nil
     else
       nil
     end
   end
-
 end

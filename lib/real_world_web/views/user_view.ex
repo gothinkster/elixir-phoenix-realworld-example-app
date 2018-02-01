@@ -4,13 +4,12 @@ defmodule RealWorldWeb.UserView do
 
   def render("author.json", %{user: user}) do
     user
-    |> Map.from_struct
+    |> Map.from_struct()
     |> Map.take([:username, :bio, :image])
   end
 
   def render("index.json", %{users: users}) do
-    %{users: render_many(users, UserView, "user.json"),
-      usersCount: length(users)}
+    %{users: render_many(users, UserView, "user.json"), usersCount: length(users)}
   end
 
   def render("show.json", %{jwt: jwt, user: user}) do
@@ -27,15 +26,14 @@ defmodule RealWorldWeb.UserView do
 
   def render("error.json", %{message: message}) do
     %{message: message}
-   end
+  end
 
   def render("user.json", %{user: user}) do
     user
-    |> Map.from_struct
+    |> Map.from_struct()
     |> Map.put(:created_at, NaiveDateTime.to_iso8601(user.created_at))
     |> Map.put(:updated_at, NaiveDateTime.to_iso8601(user.updated_at))
     |> Map.take([:id, :email, :username, :image, :bio, :token, :created_at, :updated_at])
-    |> FormatHelpers.camelize
+    |> FormatHelpers.camelize()
   end
-
 end

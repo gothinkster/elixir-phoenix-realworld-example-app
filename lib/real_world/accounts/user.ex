@@ -10,16 +10,16 @@ defmodule RealWorld.Accounts.User do
   @optional_fields ~w(bio image)a
 
   schema "users" do
-    field :email, :string, unique: true
-    field :password, :string
-    field :username, :string, unique: true
-    field :bio, :string
-    field :image, :string
+    field(:email, :string, unique: true)
+    field(:password, :string)
+    field(:username, :string, unique: true)
+    field(:bio, :string)
+    field(:image, :string)
 
-    has_many :articles, RealWorld.Blog.Article
-    has_many :comments, RealWorld.Blog.Comment
+    has_many(:articles, RealWorld.Blog.Article)
+    has_many(:comments, RealWorld.Blog.Comment)
 
-    timestamps inserted_at: :created_at
+    timestamps(inserted_at: :created_at)
   end
 
   def changeset(user, attrs) do
@@ -29,5 +29,4 @@ defmodule RealWorld.Accounts.User do
     |> unique_constraint(:username, name: :users_username_index)
     |> unique_constraint(:email)
   end
-
 end

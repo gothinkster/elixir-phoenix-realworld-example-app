@@ -4,18 +4,20 @@ defmodule RealWorldWeb.UserController do
 
   alias RealWorld.Accounts.{Auth, Users}
 
-  action_fallback RealWorldWeb.FallbackController
+  action_fallback(RealWorldWeb.FallbackController)
 
-  plug Guardian.Plug.EnsureAuthenticated when action in [:current_user, :update]
+  plug(Guardian.Plug.EnsureAuthenticated when action in [:current_user, :update])
 
   def create(conn, %{"user" => user_params}, _) do
     case Auth.register(user_params) do
       {:ok, user} ->
-        {:ok, jwt, _full_claims} = user |> RealWorldWeb.Guardian.encode_and_sign(%{}, token_type: :token)
+        {:ok, jwt, _full_claims} =
+          user |> RealWorldWeb.Guardian.encode_and_sign(%{}, token_type: :token)
 
         conn
         |> put_status(:created)
         |> render("show.json", jwt: jwt, user: user)
+
       {:error, changeset} ->
         render(conn, RealWorldWeb.ChangesetView, "error.json", changeset: changeset)
     end
@@ -43,9 +45,9 @@ defmodule RealWorldWeb.UserController do
     case Users.update_user(user, user_params) do
       {:ok, user} ->
         render(conn, "show.json", jwt: jwt, user: user)
+
       {:error, changeset} ->
         render(conn, RealWorldWeb.ChangesetView, "error.json", changeset: changeset)
     end
   end
-
 end

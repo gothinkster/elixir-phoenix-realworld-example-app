@@ -3,8 +3,10 @@ defmodule RealWorldWeb.ArticleView do
   alias RealWorldWeb.{ArticleView, FormatHelpers, UserView}
 
   def render("index.json", %{articles: articles}) do
-    %{articles: render_many(articles, ArticleView, "article.json"),
-      articlesCount: length(articles)}
+    %{
+      articles: render_many(articles, ArticleView, "article.json"),
+      articlesCount: length(articles)
+    }
   end
 
   def render("show.json", %{article: article}) do
@@ -13,19 +15,31 @@ defmodule RealWorldWeb.ArticleView do
 
   def render("article.json", %{article: article}) do
     article
-    |> Map.from_struct
+    |> Map.from_struct()
     |> Map.put(:created_at, datetime_to_iso8601(article.created_at))
     |> Map.put(:updated_at, datetime_to_iso8601(article.updated_at))
     |> Map.put(:favorites_count, length(article.favorites))
     |> Map.put(:favorited, !!article.favorited)
-    |> Map.take([:id, :body, :description, :title, :slug, :favorites_count, :favorited, :author, :tag_list, :created_at, :updated_at])
+    |> Map.take([
+      :id,
+      :body,
+      :description,
+      :title,
+      :slug,
+      :favorites_count,
+      :favorited,
+      :author,
+      :tag_list,
+      :created_at,
+      :updated_at
+    ])
     |> Map.put(:author, UserView.render("author.json", user: article.author))
-    |> FormatHelpers.camelize
+    |> FormatHelpers.camelize()
   end
 
   defp datetime_to_iso8601(datetime) do
     datetime
     |> Map.put(:microsecond, {elem(datetime.microsecond, 0), 3})
-    |> DateTime.to_iso8601
+    |> DateTime.to_iso8601()
   end
 end

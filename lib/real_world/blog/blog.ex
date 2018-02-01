@@ -22,11 +22,16 @@ defmodule RealWorld.Blog do
   end
 
   def feed(user) do
-      query = from(a in Article,
-              join: uf in UserFollower, on: a.user_id == uf.followee_id,
-              where: uf.user_id == ^user.id)
-      query
-      |> Repo.all
+    query =
+      from(
+        a in Article,
+        join: uf in UserFollower,
+        on: a.user_id == uf.followee_id,
+        where: uf.user_id == ^user.id
+      )
+
+    query
+    |> Repo.all()
   end
 
   def list_tags do
@@ -34,7 +39,7 @@ defmodule RealWorld.Blog do
           from articles, lateral unnest(articles.tag_list) as ut(tag)
           group by ut.tag
           order by tag_count desc limit 5;").rows
-          |> Enum.map(fn(v) -> Enum.at(v, 1) end)
+    |> Enum.map(fn v -> Enum.at(v, 1) end)
   end
 
   @doc """
@@ -107,6 +112,7 @@ defmodule RealWorld.Blog do
     case Article |> Repo.get_by(slug: slug) do
       nil ->
         false
+
       article ->
         Repo.delete(article)
     end
@@ -126,9 +132,8 @@ defmodule RealWorld.Blog do
   # end
 
   def list_comments(article) do
-    Repo.all(from c in Comment, where: c.article_id == ^article.id)
+    Repo.all(from(c in Comment, where: c.article_id == ^article.id))
   end
-
 
   @doc """
   Gets a single comment.
@@ -235,6 +240,7 @@ defmodule RealWorld.Blog do
   """
   def favorite(user, article) do
     favorite = %Favorite{}
+
     params = %{
       user_id: user.id,
       article_id: article.id
@@ -246,6 +252,7 @@ defmodule RealWorld.Blog do
   end
 
   def load_favorite(article, nil), do: article
+
   def load_favorite(article, user) do
     case find_favorite(article, user) do
       %Favorite{} -> Map.put(article, :favorited, true)
@@ -254,14 +261,14 @@ defmodule RealWorld.Blog do
   end
 
   def load_favorites(articles, nil), do: articles
+
   def load_favorites(articles, user) do
     articles
-    |> Enum.map(fn(article) -> load_favorite(article, user) end)
+    |> Enum.map(fn article -> load_favorite(article, user) end)
   end
 
   defp find_favorite(%Article{} = article, %User{} = user) do
-    query = from f in Favorite,
-      where: f.article_id == ^article.id and f.user_id == ^user.id
+    query = from(f in Favorite, where: f.article_id == ^article.id and f.user_id == ^user.id)
 
     Repo.one(query)
   end

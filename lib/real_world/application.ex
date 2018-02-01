@@ -12,7 +12,7 @@ defmodule RealWorld.Application do
       # Start the Ecto repository
       supervisor(RealWorld.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(RealWorldWeb.Endpoint, []),
+      supervisor(RealWorldWeb.Endpoint, [])
       # Start your own worker by calling: RealWorld.Worker.start_link(arg1, arg2, arg3)
       # worker(RealWorld.Worker, [arg1, arg2, arg3]),
     ]

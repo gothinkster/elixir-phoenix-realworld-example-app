@@ -23,6 +23,7 @@ defmodule RealWorldWeb.ErrorHelpers do
     case opts[:count] do
       nil ->
         Gettext.dgettext(RealWorldWeb.Gettext, "errors", msg, opts)
+
       count ->
         Gettext.dngettext(RealWorldWeb.Gettext, "errors", msg, msg, count, opts)
     end

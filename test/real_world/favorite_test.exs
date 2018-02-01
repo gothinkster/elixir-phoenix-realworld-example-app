@@ -8,9 +8,15 @@ defmodule RealWorld.Blog.FavoriteTest do
   describe "schema" do
     test "schema metadata" do
       assert Favorite.__schema__(:source) == "favorites"
+
       assert Favorite.__schema__(:fields) == [
-        :id, :user_id, :article_id, :inserted_at, :updated_at
-      ]
+               :id,
+               :user_id,
+               :article_id,
+               :inserted_at,
+               :updated_at
+             ]
+
       assert Favorite.__schema__(:primary_key) == [:id]
     end
   end
