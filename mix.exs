@@ -12,6 +12,13 @@ defmodule RealWorld.Mixfile do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
+
+      # Docs
+      name: "RealWorld Example App",
+      source_url: "https://github.com/gothinkster/elixir-phoenix-realworld-example-app",
+      homepage_url: "https://github.com/gothinkster/elixir-phoenix-realworld-example-app",
+      # The main page in the docs
+      docs: [main: "RealWorld Example App", logo: "logo.png", extras: ["README.md"]]
     ]
   end
 
@@ -44,6 +51,7 @@ defmodule RealWorld.Mixfile do
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
       {:credo, "~> 0.8.5", only: [:dev, :test]},
       {:ex_machina, "~> 2.0", only: :test},
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:plug, "~> 1.0"},
       {:corsica, "~> 1.0"}
     ]

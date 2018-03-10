@@ -8,17 +8,46 @@ We've gone to great lengths to adhere to the **[credo](https://github.com/rrrene
 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
-## Getting started
+## Installing / Getting started
 
-1. Install [phoenix](http://www.phoenixframework.org/docs/installation) as well as all the other dependencies (erlang, elixir, postgresql).
-1. Clone the repo.
-1. Run the following commands in the project directory:
-    - `cp config/dev.exs.example config/dev.exs` and setup with your database credentials.
-    - `mix deps.get` to install dependencies.
-    - `mix ecto.create` to create the database.
-    - `mix ecto.migrate` to run the database migrations.
-    - `mix phx.server` to run the application.
+To run this project, you will need to install the following dependencies on your system:
 
-## License
+* [Elixir](https://elixir-lang.org/install.html)
+* [Phoenix](https://hexdocs.pm/phoenix/installation.html)
+* [PostgreSQL](https://www.postgresql.org/download/macosx/)
+
+To get started, run the following commands in your project folder:
+
+```shell
+cp config/dev.exs.example config/dev.exs  # creates the project's configuration file
+mix deps.get  # installs the dependencies
+mix ecto.create  # creates the database.
+mix ecto.migrate  # run the database migrations.
+mix phx.server  # run the application.
+```
+
+## Tests
+
+To run the tests for this project, simply run in your terminal:
+
+```shell
+mix test
+```
+
+## Documentation
+
+To generate the documentation, your can run in your terminal:
+
+```shell
+mix docs
+```
+
+This will generate a `doc/` directory with a documentation in HTML. To view the documentation, open the `index.html` file in the generated directory.
+
+## Style guide
+
+This project uses [mix format](https://hexdocs.pm/mix/master/Mix.Tasks.Format.html). You can find the configuration file for the formatter in the `.formatter.ext` file.
+
+## Licensing
 
 MIT © Ezinwa Okpoechi
