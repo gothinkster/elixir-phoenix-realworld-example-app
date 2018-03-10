@@ -24,6 +24,9 @@ erl_crash.dump
 .settings/
 docker-compose.yml
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
+
+# Documentation
+doc/
