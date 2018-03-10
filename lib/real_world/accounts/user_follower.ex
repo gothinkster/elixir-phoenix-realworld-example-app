@@ -10,10 +10,10 @@ defmodule RealWorld.Accounts.UserFollower do
   @required_fields ~w(user_id followee_id)a
 
   schema "user_followers" do
-    field :user_id, :integer, primary_key: true
-    field :followee_id, :integer, primary_key: true
+    field(:user_id, :integer, primary_key: true)
+    field(:followee_id, :integer, primary_key: true)
 
-    timestamps updated_at: false
+    timestamps(updated_at: false)
   end
 
   def changeset(user, attrs) do
@@ -22,5 +22,4 @@ defmodule RealWorld.Accounts.UserFollower do
     |> validate_required(@required_fields)
     |> unique_constraint(:follow, name: :user_followers_pkey)
   end
-
 end

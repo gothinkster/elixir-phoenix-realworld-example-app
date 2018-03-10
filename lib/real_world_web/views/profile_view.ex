@@ -8,10 +8,9 @@ defmodule RealWorldWeb.ProfileView do
 
   def render("profile.json", %{profile: profile, following: following}) do
     profile
-    |> Map.from_struct
+    |> Map.from_struct()
     |> Map.put(:following, following)
     |> Map.take([:username, :image, :bio, :following])
-    |> FormatHelpers.camelize
+    |> FormatHelpers.camelize()
   end
-
 end

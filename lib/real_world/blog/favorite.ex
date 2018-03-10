@@ -11,8 +11,8 @@ defmodule RealWorld.Blog.Favorite do
   @required_fields ~w(user_id article_id)a
 
   schema "favorites" do
-    belongs_to :user, User, foreign_key: :user_id
-    belongs_to :article, Article, foreign_key: :article_id
+    belongs_to(:user, User, foreign_key: :user_id)
+    belongs_to(:article, Article, foreign_key: :article_id)
 
     timestamps()
   end

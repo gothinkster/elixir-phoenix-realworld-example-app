@@ -4,5 +4,4 @@ defmodule RealWorldWeb.TagView do
   def render("index.json", %{tags: tags}) do
     %{tags: tags}
   end
-
 end

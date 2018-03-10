@@ -10,11 +10,12 @@ defmodule RealWorldWeb.FormatHelpers do
   end
 
   defp camelize_key(key) when is_atom(key), do: key |> to_string |> camelize_key
+
   defp camelize_key(key) when is_bitstring(key) do
     key
     |> String.split("_")
     |> Enum.reduce([], &camel_case/2)
-    |> Enum.join
+    |> Enum.join()
   end
 
   defp camel_case(item, []), do: [item]

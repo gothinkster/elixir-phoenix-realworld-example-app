@@ -22,7 +22,7 @@ defmodule RealWorld.Accounts.Auth do
     %User{}
     |> User.changeset(attrs)
     |> hash_password
-    |> Repo.insert
+    |> Repo.insert()
   end
 
   defp check_password(user, password) do
@@ -36,6 +36,7 @@ defmodule RealWorld.Accounts.Auth do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
         put_change(changeset, :password, Encryption.password_hashing(pass))
+
       _ ->
         changeset
     end

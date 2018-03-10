@@ -13,19 +13,18 @@ defmodule RealWorld.Blog.Article do
   @optional_fields ~w(slug tag_list)a
 
   schema "articles" do
-    field :body, :string
-    field :description, :string
-    field :title, :string
-    field :slug, :string
-    field :tag_list, {:array, :string}
-    field :favorited, :boolean, virtual: true
+    field(:body, :string)
+    field(:description, :string)
+    field(:title, :string)
+    field(:slug, :string)
+    field(:tag_list, {:array, :string})
+    field(:favorited, :boolean, virtual: true)
 
-    belongs_to :author, User, foreign_key: :user_id
-    has_many :favorites, Favorite
+    belongs_to(:author, User, foreign_key: :user_id)
+    has_many(:favorites, Favorite)
 
-    timestamps inserted_at: :created_at
+    timestamps(inserted_at: :created_at)
   end
-
 
   def changeset(%Article{} = article, attrs) do
     article

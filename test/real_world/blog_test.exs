@@ -8,7 +8,11 @@ defmodule RealWorld.BlogTest do
   import RealWorld.Factory
 
   @create_attrs %{body: "some body", description: "some description", title: "some title"}
-  @update_attrs %{body: "some updated body", description: "some updated description", title: "some updated title"}
+  @update_attrs %{
+    body: "some updated body",
+    description: "some updated description",
+    title: "some updated title"
+  }
   @invalid_attrs %{body: nil, description: nil, title: nil}
 
   setup do
@@ -27,7 +31,9 @@ defmodule RealWorld.BlogTest do
   end
 
   test "create_article/1 with valid data creates a article", %{author: author} do
-    assert {:ok, %Article{} = article} = Blog.create_article(Map.merge(@create_attrs, %{user_id: author.id}))
+    assert {:ok, %Article{} = article} =
+             Blog.create_article(Map.merge(@create_attrs, %{user_id: author.id}))
+
     assert article.body == "some body"
     assert article.description == "some description"
     assert article.title == "some title"
@@ -57,14 +63,20 @@ defmodule RealWorld.BlogTest do
     assert_raise Ecto.NoResultsError, fn -> Blog.get_article!(article.id) end
   end
 
-  test "favorite/2 creates a new favorite with the given article", %{article: article, author: user} do
+  test "favorite/2 creates a new favorite with the given article", %{
+    article: article,
+    author: user
+  } do
     assert {:ok, %Favorite{} = favorite} = Blog.favorite(user, article)
-    favorite = Repo.preload favorite, [:article, :user]
+    favorite = Repo.preload(favorite, [:article, :user])
     assert %Article{} = favorite.article
     assert %User{} = favorite.user
   end
 
-  test "load_favorite/2 loads the favorite attribute in article", %{article: article, author: user} do
+  test "load_favorite/2 loads the favorite attribute in article", %{
+    article: article,
+    author: user
+  } do
     insert(:favorite, article: article, user: user)
 
     article = Blog.load_favorite(article, user)
@@ -76,7 +88,10 @@ defmodule RealWorld.BlogTest do
     refute article.favorited
   end
 
-  test "load_favorites/2 loads the favorite attribute in each article", %{article: article, author: user} do
+  test "load_favorites/2 loads the favorite attribute in each article", %{
+    article: article,
+    author: user
+  } do
     insert(:favorite, article: article, user: user)
 
     article = List.first(Blog.load_favorites([article], user))
