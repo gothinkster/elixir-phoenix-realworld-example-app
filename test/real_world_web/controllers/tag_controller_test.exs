@@ -10,6 +10,6 @@ defmodule RealWorldWeb.TagControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get(conn, tag_path(conn, :index))
-    assert json_response(conn, 200)["tags"] == ["tag2", "tag1"]
+    assert json_response(conn, 200)["tags"] == ["tag1", "tag2"]
   end
 end
