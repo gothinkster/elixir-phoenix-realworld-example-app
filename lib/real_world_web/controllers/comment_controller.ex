@@ -25,7 +25,8 @@ defmodule RealWorldWeb.CommentController do
 
     with {:ok, %Comment{} = comment} <-
            Blog.create_comment(
-             comment_params |> Map.merge(%{"user_id" => user.id})
+             comment_params
+             |> Map.merge(%{"user_id" => user.id})
              |> Map.merge(%{"article_id" => article.id})
            ) do
       conn
