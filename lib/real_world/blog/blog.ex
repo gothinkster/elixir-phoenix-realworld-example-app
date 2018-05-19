@@ -8,17 +8,22 @@ defmodule RealWorld.Blog do
   alias RealWorld.Accounts.{User, UserFollower}
   alias RealWorld.Blog.{Article, Comment, Favorite}
 
+  @default_article_pagination_limit 10
+
   @doc """
   Returns the list of articles.
 
   ## Examples
 
-      iex> list_articles()
+      iex> list_articles(%{"limit" => 10, "offset" => 0})
       [%Article{}, ...]
 
   """
-  def list_articles do
-    Repo.all(Article)
+  def list_articles(params) do
+    limit = params["limit"] || @default_article_pagination_limit
+    offset = params["offset"] || 0
+    from(a in Article, limit: ^limit, offset: ^offset, order_by: a.created_at)
+    |> Repo.all
   end
 
   def feed(user) do

@@ -17,7 +17,7 @@ defmodule RealWorld.Factory do
       description: "some description",
       title: "some title",
       tag_list: ["tag1", "tag2"],
-      slug: "some-tile",
+      slug: sequence(:slug, &"some-tile-#{&1}"),
       author: build(:user)
     }
   end
