@@ -17,9 +17,9 @@ defmodule RealWorldWeb.ArticleController do
          ]
   )
 
-  def index(conn, _params, user) do
+  def index(conn, params, user) do
     articles =
-      Blog.list_articles()
+      Blog.list_articles(params)
       |> Repo.preload([:author, :favorites])
       |> Blog.load_favorites(user)
 
