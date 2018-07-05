@@ -23,7 +23,16 @@ defmodule RealWorld.Blog do
     limit = params["limit"] || @default_article_pagination_limit
     offset = params["offset"] || 0
     from(a in Article, limit: ^limit, offset: ^offset, order_by: a.created_at)
-    |> Repo.all
+      |> filter_by_tags(params["tag"])
+      |> Repo.all
+  end
+
+  def filter_by_tags(query, nil) do
+    query
+  end
+
+  def filter_by_tags(query, tag) do
+    query |> where([a], fragment("exists (select * from unnest(?) tag where tag = ?)", a.tag_list, ^tag))
   end
 
   def feed(user) do

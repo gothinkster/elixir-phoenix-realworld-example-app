@@ -54,6 +54,15 @@ defmodule RealWorld.BlogTest do
     assert actual_article_ids == expected_article_ids
   end
 
+  @tag :without_article
+  test "list_articles/1 returns articles filtered by particular tag", %{author: user} do
+    articles_with_required_tag = insert_list(2, :article, author: user, tag_list: ["tag1"])
+    insert_list(2, :article, author: user, tag_list: ["tag2"])
+    actual_article_ids = Blog.list_articles(%{"tag" => "tag1"}) |> Enum.map(fn (article) -> article.id end)
+    expected_article_ids = articles_with_required_tag |> Enum.map(fn (article) -> article.id end)
+    assert actual_article_ids == expected_article_ids
+  end
+
   test "get_article! returns the article with given id", %{article: article} do
     assert Blog.get_article!(article.id).id == article.id
   end
