@@ -46,7 +46,7 @@ This will generate a `doc/` directory with a documentation in HTML. To view the 
 
 ## Style guide
 
-This project uses [mix format](https://hexdocs.pm/mix/master/Mix.Tasks.Format.html). You can find the configuration file for the formatter in the `.formatter.ext` file.
+This project uses [mix format](https://hexdocs.pm/mix/master/Mix.Tasks.Format.html). You can find the configuration file for the formatter in the `.formatter.exs` file.
 
 ## Licensing
 
