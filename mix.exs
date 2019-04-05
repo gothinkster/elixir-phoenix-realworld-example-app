@@ -14,11 +14,11 @@ defmodule RealWorld.Mixfile do
       test_coverage: [tool: ExCoveralls],
 
       # Docs
-      name: "RealWorld Example App",
+      name: "RealWorld",
       source_url: "https://github.com/gothinkster/elixir-phoenix-realworld-example-app",
       homepage_url: "https://github.com/gothinkster/elixir-phoenix-realworld-example-app",
       # The main page in the docs
-      docs: [main: "RealWorld Example App", logo: "logo.png", extras: ["README.md"]]
+      docs: [main: "README", extras: ["README.md"]]
     ]
   end
 
