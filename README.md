@@ -1,6 +1,7 @@
 # ![RealWorld Example App](logo.png)
+> Elixir (Phoenix) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.  
 
-> Elixir (Phoenix) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
+[![CircleCI](https://circleci.com/gh/gothinkster/elixir-phoenix-realworld-example-app.svg?style=svg)](https://circleci.com/gh/gothinkster/elixir-phoenix-realworld-example-app) [![codecov](https://codecov.io/gh/gothinkster/elixir-phoenix-realworld-example-app/branch/master/graph/badge.svg)](https://codecov.io/gh/gothinkster/elixir-phoenix-realworld-example-app)
 
 This codebase was created to demonstrate a fully fledged backend application built with **Elixir and Phoenix** including CRUD operations, authentication, routing, pagination, and more.
 
