@@ -4,7 +4,7 @@ defmodule RealWorld.Mixfile do
   def project do
     [
       app: :real_world,
-      version: "0.0.1",
+      version: "1.0.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
