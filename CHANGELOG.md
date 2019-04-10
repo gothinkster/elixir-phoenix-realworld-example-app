@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - elixir 1.8.1
 - erlang 20.0
+- Circle CI config for elixir 1.8.1
 
 ## [1.0.0] - 2019-04-10
 
