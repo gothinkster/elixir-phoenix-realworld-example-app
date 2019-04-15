@@ -19,13 +19,13 @@ defmodule RealWorldWeb.ArticleControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get(conn, article_path(conn, :index))
+    conn = get(conn, Routes.article_path(conn, :index))
     assert json_response(conn, 200)["articles"] != []
   end
 
   test "creates article and renders article when data is valid", %{conn: conn, jwt: jwt} do
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = post(conn, article_path(conn, :create), article: @create_attrs)
+    conn = post(conn, Routes.article_path(conn, :create), article: @create_attrs)
     json = json_response(conn, 201)["article"]
 
     assert json == %{
@@ -45,7 +45,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
 
   test "does not create article and renders errors when data is invalid", %{conn: conn, jwt: jwt} do
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = post(conn, article_path(conn, :create), article: @invalid_attrs)
+    conn = post(conn, Routes.article_path(conn, :create), article: @invalid_attrs)
     assert json_response(conn, 422)["errors"] != %{}
   end
 
@@ -56,10 +56,10 @@ defmodule RealWorldWeb.ArticleControllerTest do
   } do
     article_id = article.id
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = put(conn, article_path(conn, :update, article), article: @update_attrs)
+    conn = put(conn, Routes.article_path(conn, :update, article), article: @update_attrs)
     assert %{"id" => ^article_id} = json_response(conn, 200)["article"]
 
-    conn = get(conn, article_path(conn, :show, "some-updated-title"))
+    conn = get(conn, Routes.article_path(conn, :show, "some-updated-title"))
     json = json_response(conn, 200)["article"]
 
     assert json == %{
@@ -80,7 +80,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
   test "favorites the chosen article", %{conn: conn, jwt: jwt, article: article} do
     article_id = article.id
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = post(conn, article_path(conn, :favorite, article.slug))
+    conn = post(conn, Routes.article_path(conn, :favorite, article.slug))
     assert %{"id" => ^article_id, "favorited" => true} = json_response(conn, 200)["article"]
   end
 
@@ -92,7 +92,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
   } do
     insert(:favorite, user: user, article: article)
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = get(conn, article_path(conn, :show, article.slug))
+    conn = get(conn, Routes.article_path(conn, :show, article.slug))
     json = json_response(conn, 200)["article"]
 
     assert json == %{
@@ -123,7 +123,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
     insert(:favorite, user: user, article: article)
 
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = delete(conn, article_path(conn, :unfavorite, article.slug))
+    conn = delete(conn, Routes.article_path(conn, :unfavorite, article.slug))
     json = json_response(conn, 200)["article"]
 
     assert json == %{
@@ -151,17 +151,17 @@ defmodule RealWorldWeb.ArticleControllerTest do
     article: article
   } do
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = put(conn, article_path(conn, :update, article), article: @invalid_attrs)
+    conn = put(conn, Routes.article_path(conn, :update, article), article: @invalid_attrs)
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen article", %{conn: conn, jwt: jwt, article: article} do
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = delete(conn, article_path(conn, :delete, article))
+    conn = delete(conn, Routes.article_path(conn, :delete, article))
     assert response(conn, 204)
 
     assert_error_sent(404, fn ->
-      get(conn, article_path(conn, :show, article))
+      get(conn, Routes.article_path(conn, :show, article))
     end)
   end
 
@@ -174,7 +174,7 @@ defmodule RealWorldWeb.ArticleControllerTest do
     insert(:favorite, user: user, article: article)
 
     conn = conn |> put_req_header("authorization", "Token #{jwt}")
-    conn = delete(conn, article_path(conn, :delete, article.slug))
+    conn = delete(conn, Routes.article_path(conn, :delete, article.slug))
     assert response(conn, 204)
   end
 end

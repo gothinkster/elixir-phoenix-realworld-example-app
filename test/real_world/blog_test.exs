@@ -23,33 +23,46 @@ defmodule RealWorld.BlogTest do
   end
 
   @tag :without_article
-  test "list_articles/1 returns first 10 articles by default if no limit and offset are provided", %{author: user} do
+  test "list_articles/1 returns first 10 articles by default if no limit and offset are provided",
+       %{author: user} do
     articles = insert_list(12, :article, author: user)
-    actual_article_ids = Blog.list_articles(%{}) |> Enum.map(fn (article) -> article.id end)
-    expected_article_ids = Enum.take(articles, 10) |> Enum.map(fn (article) -> article.id end)
+    actual_article_ids = Blog.list_articles(%{}) |> Enum.map(fn article -> article.id end)
+    expected_article_ids = Enum.take(articles, 10) |> Enum.map(fn article -> article.id end)
     assert actual_article_ids == expected_article_ids
   end
 
   @tag :without_article
   test "list_articles/1 returns limited number of article provided", %{author: user} do
     articles = insert_list(3, :article, author: user)
-    actual_article_ids = Blog.list_articles(%{"limit" => 2}) |> Enum.map(fn (article) -> article.id end)
-    expected_article_ids = Enum.take(articles, 2) |> Enum.map(fn (article) -> article.id end)
+
+    actual_article_ids =
+      Blog.list_articles(%{"limit" => 2}) |> Enum.map(fn article -> article.id end)
+
+    expected_article_ids = Enum.take(articles, 2) |> Enum.map(fn article -> article.id end)
     assert actual_article_ids == expected_article_ids
   end
 
   @tag :without_article
   test "list_articles/1 returns article after particular offset", %{author: user} do
     articles = insert_list(3, :article, author: user)
-    actual_article_ids = Blog.list_articles(%{"offset" => 1}) |> Enum.map(fn (article) -> article.id end)
-    expected_article_ids = Enum.take(articles, -2) |> Enum.map(fn (article) -> article.id end)
+
+    actual_article_ids =
+      Blog.list_articles(%{"offset" => 1}) |> Enum.map(fn article -> article.id end)
+
+    expected_article_ids = Enum.take(articles, -2) |> Enum.map(fn article -> article.id end)
     assert actual_article_ids == expected_article_ids
   end
 
   @tag :without_article
-  test "list_articles/1 returns limited number of article after particular offset", %{author: user} do
+  test "list_articles/1 returns limited number of article after particular offset", %{
+    author: user
+  } do
     articles = insert_list(4, :article, author: user)
-    actual_article_ids = Blog.list_articles(%{"offset" => 1, "limit" => "2"}) |> Enum.map(fn (article) -> article.id end)
+
+    actual_article_ids =
+      Blog.list_articles(%{"offset" => 1, "limit" => "2"})
+      |> Enum.map(fn article -> article.id end)
+
     expected_article_ids = [Enum.at(articles, 1).id, Enum.at(articles, 2).id]
     assert actual_article_ids == expected_article_ids
   end
@@ -58,8 +71,11 @@ defmodule RealWorld.BlogTest do
   test "list_articles/1 returns articles filtered by particular tag", %{author: user} do
     articles_with_required_tag = insert_list(2, :article, author: user, tag_list: ["tag1"])
     insert_list(2, :article, author: user, tag_list: ["tag2"])
-    actual_article_ids = Blog.list_articles(%{"tag" => "tag1"}) |> Enum.map(fn (article) -> article.id end)
-    expected_article_ids = articles_with_required_tag |> Enum.map(fn (article) -> article.id end)
+
+    actual_article_ids =
+      Blog.list_articles(%{"tag" => "tag1"}) |> Enum.map(fn article -> article.id end)
+
+    expected_article_ids = articles_with_required_tag |> Enum.map(fn article -> article.id end)
     assert actual_article_ids == expected_article_ids
   end
 

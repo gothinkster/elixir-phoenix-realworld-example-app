@@ -42,7 +42,7 @@ defmodule RealWorldWeb.ProfileControllerTest do
 
   test "return valid profile and following:nil if disconnected", %{conn: conn} do
     user1 = fixture(:user1)
-    conn = get(conn, profile_path(conn, :show, user1.username))
+    conn = get(conn, Routes.profile_path(conn, :show, user1.username))
     json = json_response(conn, 200)["profile"]
 
     assert json == %{
@@ -55,7 +55,7 @@ defmodule RealWorldWeb.ProfileControllerTest do
 
   test "return valid profile and following:false if connected", %{conn: conn} do
     user2 = fixture(:user2)
-    conn = get(secure_conn(conn), profile_path(conn, :show, user2.username))
+    conn = get(secure_conn(conn), Routes.profile_path(conn, :show, user2.username))
     json = json_response(conn, 200)["profile"]
 
     assert json == %{
@@ -68,7 +68,7 @@ defmodule RealWorldWeb.ProfileControllerTest do
 
   test "follow endpoint is only reachable if connected", %{conn: conn} do
     user2 = fixture(:user2)
-    conn = post(conn, profile_path(conn, :follow, user2.username))
+    conn = post(conn, Routes.profile_path(conn, :follow, user2.username))
     json = json_response(conn, 403)
 
     assert json == %{
@@ -78,7 +78,7 @@ defmodule RealWorldWeb.ProfileControllerTest do
 
   test "unfollow endpoint is only reachable if connected", %{conn: conn} do
     user2 = fixture(:user2)
-    conn = post(conn, profile_path(conn, :follow, user2.username))
+    conn = post(conn, Routes.profile_path(conn, :follow, user2.username))
     json = json_response(conn, 403)
 
     assert json == %{
@@ -88,7 +88,7 @@ defmodule RealWorldWeb.ProfileControllerTest do
 
   test "set following to true if follow user", %{conn: conn} do
     user2 = fixture(:user2)
-    conn = post(secure_conn(conn), profile_path(conn, :follow, user2.username))
+    conn = post(secure_conn(conn), Routes.profile_path(conn, :follow, user2.username))
     json = json_response(conn, 200)["profile"]
 
     assert json == %{
@@ -103,7 +103,7 @@ defmodule RealWorldWeb.ProfileControllerTest do
     new_conn = secure_conn(conn)
     user2 = fixture(:user2)
 
-    conn = post(new_conn, profile_path(conn, :follow, user2.username))
+    conn = post(new_conn, Routes.profile_path(conn, :follow, user2.username))
     json = json_response(conn, 200)["profile"]
 
     assert json == %{
@@ -113,7 +113,7 @@ defmodule RealWorldWeb.ProfileControllerTest do
              "following" => true
            }
 
-    conn = delete(new_conn, profile_path(conn, :unfollow, user2.username))
+    conn = delete(new_conn, Routes.profile_path(conn, :unfollow, user2.username))
     json = json_response(conn, 200)["profile"]
 
     assert json == %{

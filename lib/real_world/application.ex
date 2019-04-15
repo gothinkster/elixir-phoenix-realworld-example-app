@@ -5,16 +5,14 @@ defmodule RealWorld.Application do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec
-
-    # Define workers and child supervisors to be supervised
+    # List all child processes to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(RealWorld.Repo, []),
+      RealWorld.Repo,
       # Start the endpoint when the application starts
-      supervisor(RealWorldWeb.Endpoint, [])
-      # Start your own worker by calling: RealWorld.Worker.start_link(arg1, arg2, arg3)
-      # worker(RealWorld.Worker, [arg1, arg2, arg3]),
+      RealWorldWeb.Endpoint
+      # Starts a worker by calling: RealWorld.Worker.start_link(arg)
+      # {RealWorld.Worker, arg},
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

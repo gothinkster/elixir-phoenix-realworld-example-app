@@ -9,12 +9,14 @@ defmodule RealWorldWeb.FallbackController do
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
-    |> render(RealWorldWeb.ChangesetView, "error.json", changeset: changeset)
+    |> put_view(RealWorldWeb.ChangesetView)
+    |> render("error.json", changeset: changeset)
   end
 
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> render(RealWorldWeb.ErrorView, :"404")
+    |> put_view(RealWorldWeb.ErrorView)
+    |> render(:"404")
   end
 end

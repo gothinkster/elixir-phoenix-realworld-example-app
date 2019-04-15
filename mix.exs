@@ -1,4 +1,4 @@
-defmodule RealWorld.Mixfile do
+defmodule RealWorld.MixProject do
   use Mix.Project
 
   def project do
@@ -38,17 +38,19 @@ defmodule RealWorld.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
-      {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
-      {:postgrex, "~> 0.13.3"},
+      {:phoenix, "~> 1.4.2"},
+      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix_ecto, "~> 4.0"},
+      {:ecto_sql, "~> 3.0"},
+      {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
-      {:proper_case, "~> 1.0.0"},
-      {:cowboy, "~> 1.1"},
-      {:comeonin, "~> 3.2"},
+      {:proper_case, "~> 1.3"},
+      {:plug_cowboy, "~> 2.0"},
+      {:comeonin, "~> 5.0"},
+      {:bcrypt_elixir, "~> 2.0"},
       {:guardian, "~> 1.0"},
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
-      {:credo, "~> 0.8.5", only: [:dev, :test]},
+      {:credo, "~> 1.0", only: [:dev, :test]},
       {:ex_machina, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:plug, "~> 1.0"},
