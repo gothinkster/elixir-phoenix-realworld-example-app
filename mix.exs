@@ -45,6 +45,7 @@ defmodule RealWorld.Mixfile do
       {:gettext, "~> 0.11"},
       {:proper_case, "~> 1.0.0"},
       {:cowboy, "~> 1.1"},
+      {:plug_cowboy, "~> 1.0.0"},
       {:comeonin, "~> 3.2"},
       {:guardian, "~> 1.0"},
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
