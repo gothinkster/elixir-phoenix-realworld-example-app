@@ -13,6 +13,7 @@ defmodule RealWorld.Accounts.Users do
   def update_user(user, attrs) do
     user
     |> User.changeset(attrs)
+    |> RealWorld.Accounts.Auth.hash_password()
     |> Repo.update()
   end
 
