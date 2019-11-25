@@ -32,7 +32,7 @@ defmodule RealWorld.Accounts.Auth do
     end
   end
 
-  defp hash_password(changeset) do
+  def hash_password(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
         put_change(changeset, :password, Encryption.password_hashing(pass))
