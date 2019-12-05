@@ -27,6 +27,10 @@ mix ecto.migrate  # run the database migrations.
 mix phx.server  # run the application.
 ```
 
+This is a backend project, you won't be able to go to localhost:4000 and see an aplication. 
+
+In order to see the [Conduit](https://demo.realworld.io/#/) frontend you will need to download and setup one of the [frontend projects](https://demo.realworld.io/#/) and set it up to consume this apps api. Typically this can be done by finding the `API_URL` and setting it to `localhost:4000`.
+
 ## Tests
 
 To run the tests for this project, simply run in your terminal:
