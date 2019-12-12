@@ -8,8 +8,7 @@ defmodule RealWorldWeb.SessionController do
   def create(conn, params) do
     case Auth.find_user_and_check_password(params) do
       {:ok, user} ->
-        {:ok, jwt, _full_claims} =
-          user |> RealWorldWeb.Guardian.encode_and_sign(%{}, token_type: :token)
+        {:ok, jwt, _full_claims} = RealWorldWeb.Guardian.encode_and_sign(user, %{}, token_type: :token)
 
         conn
         |> put_status(:created)

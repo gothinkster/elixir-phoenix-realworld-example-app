@@ -11,8 +11,7 @@ defmodule RealWorldWeb.UserController do
   def create(conn, %{"user" => user_params}, _) do
     case Auth.register(user_params) do
       {:ok, user} ->
-        {:ok, jwt, _full_claims} =
-          user |> RealWorldWeb.Guardian.encode_and_sign(%{}, token_type: :token)
+        {:ok, jwt, _full_claims} = RealWorldWeb.Guardian.encode_and_sign(user, %{}, token_type: :token)
 
         conn
         |> put_status(:created)

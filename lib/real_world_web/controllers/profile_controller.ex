@@ -25,8 +25,7 @@ defmodule RealWorldWeb.ProfileController do
   def follow(conn, %{"username" => username}, current_user) do
     case Users.get_by_username(username) do
       followee = %User{} ->
-        current_user
-        |> Users.follow(followee)
+        Users.follow(current_user, followee)
 
         conn
         |> put_status(:ok)
@@ -46,8 +45,7 @@ defmodule RealWorldWeb.ProfileController do
   def unfollow(conn, %{"username" => username}, current_user) do
     case Users.get_by_username(username) do
       followee = %User{} ->
-        current_user
-        |> Users.unfollow(followee)
+        Users.unfollow(current_user, followee)
 
         conn
         |> put_status(:ok)

@@ -10,11 +10,10 @@ defmodule RealWorldWeb.CommentController do
   plug(Guardian.Plug.EnsureAuthenticated when action in [:create, :update, :delete])
 
   def index(conn, %{"article_id" => slug}, _user) do
-    article = Blog.get_article_by_slug!(slug)
-    comments = Blog.list_comments(article)
-
     comments =
-      comments
+      slug
+      |> Blog.get_article_by_slug!()
+      |> Blog.list_comments()
       |> RealWorld.Repo.preload(:author)
 
     render(conn, "index.json", comments: comments)

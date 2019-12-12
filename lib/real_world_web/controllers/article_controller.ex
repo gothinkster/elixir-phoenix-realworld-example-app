@@ -19,7 +19,8 @@ defmodule RealWorldWeb.ArticleController do
 
   def index(conn, params, user) do
     articles =
-      Blog.list_articles(params)
+      params
+      |> Blog.list_articles()
       |> Repo.preload([:author, :favorites])
       |> Blog.load_favorites(user)
 
@@ -37,9 +38,7 @@ defmodule RealWorldWeb.ArticleController do
 
   def create(conn, %{"article" => params}, user) do
     with {:ok, %Article{} = article} <- Blog.create_article(create_params(params, user)) do
-      article =
-        article
-        |> Repo.preload([:author, :favorites])
+      article = Repo.preload(article, [:author, :favorites])
 
       conn
       |> put_status(:created)
@@ -49,8 +48,7 @@ defmodule RealWorldWeb.ArticleController do
   end
 
   defp create_params(params, user) do
-    params
-    |> Map.merge(%{"user_id" => user.id})
+    Map.merge(params, %{"user_id" => user.id})
   end
 
   def show(conn, %{"id" => slug}, user) do
@@ -76,9 +74,7 @@ defmodule RealWorldWeb.ArticleController do
   end
 
   def favorite(conn, %{"slug" => slug}, user) do
-    article =
-      slug
-      |> Blog.get_article_by_slug!()
+    article = Blog.get_article_by_slug!(slug)
 
     with {:ok, %Favorite{}} <- Blog.favorite(user, article) do
       article =
@@ -91,9 +87,7 @@ defmodule RealWorldWeb.ArticleController do
   end
 
   def unfavorite(conn, %{"slug" => slug}, user) do
-    article =
-      slug
-      |> Blog.get_article_by_slug!()
+    article = Blog.get_article_by_slug!(slug)
 
     with {:ok, _} <- Blog.unfavorite(article, user) do
       article =

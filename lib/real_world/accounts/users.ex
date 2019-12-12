@@ -24,9 +24,7 @@ defmodule RealWorld.Accounts.Users do
   end
 
   def unfollow(user, followee) do
-    relation =
-      UserFollower
-      |> Repo.get_by(user_id: user.id, followee_id: followee.id)
+    relation = Repo.get_by(UserFollower, user_id: user.id, followee_id: followee.id)
 
     case relation do
       nil ->
