@@ -14,7 +14,7 @@ defmodule RealWorld.Blog.Comment do
 
     belongs_to(:article, Article, foreign_key: :article_id)
     belongs_to(:author, User, foreign_key: :user_id)
-    timestamps(inserted_at: :created_at)
+    timestamps(inserted_at: :created_at, type: :utc_datetime_usec)
   end
 
   @doc false

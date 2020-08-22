@@ -19,7 +19,7 @@ defmodule RealWorld.Accounts.User do
     has_many(:articles, RealWorld.Blog.Article)
     has_many(:comments, RealWorld.Blog.Comment)
 
-    timestamps(inserted_at: :created_at)
+    timestamps(inserted_at: :created_at, type: :utc_datetime_usec)
   end
 
   def changeset(user, attrs) do

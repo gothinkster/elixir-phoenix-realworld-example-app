@@ -3,6 +3,7 @@ defmodule RealWorldWeb.CommentControllerTest do
 
   alias RealWorld.Blog
   alias RealWorld.Blog.Comment
+  alias RealWorld.Repo
   import RealWorld.Factory
 
   @create_attrs %{body: "some body"}
@@ -15,6 +16,8 @@ defmodule RealWorldWeb.CommentControllerTest do
   end
 
   setup do
+    Repo.delete_all(Comment)
+
     user = insert(:user)
     article = insert(:article, author: user)
     comment = insert(:comment, author: user, article: article)

@@ -40,7 +40,7 @@ defmodule RealWorld.Mixfile do
     [
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
+      {:phoenix_ecto, "~> 4.1"},
       {:postgrex, "~> 0.13.3"},
       {:gettext, "~> 0.11"},
       {:proper_case, "~> 1.0.0"},
@@ -53,6 +53,7 @@ defmodule RealWorld.Mixfile do
       {:ex_machina, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:plug, "~> 1.0"},
+      {:ecto3_mnesia, "~> O.2"},
       {:corsica, "~> 1.0"}
     ]
   end
@@ -67,7 +68,7 @@ defmodule RealWorld.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["run priv/repo/mnesia.ex", "test"]
     ]
   end
 end

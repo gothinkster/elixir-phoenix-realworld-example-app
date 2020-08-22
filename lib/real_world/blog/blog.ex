@@ -24,20 +24,19 @@ defmodule RealWorld.Blog do
     offset = params["offset"] || 0
 
     from(a in Article, limit: ^limit, offset: ^offset, order_by: a.created_at)
-    |> filter_by_tags(params["tag"])
     |> Repo.all()
+    |> filter_by_tags(params["tag"])
   end
 
-  def filter_by_tags(query, nil) do
-    query
+  def filter_by_tags(articles, nil) do
+    articles
   end
 
-  def filter_by_tags(query, tag) do
-    query
-    |> where(
-      [a],
-      fragment("exists (select * from unnest(?) tag where tag = ?)", a.tag_list, ^tag)
-    )
+  def filter_by_tags(articles, tag) do
+    articles
+    |> Enum.filter(fn (%Article{tag_list: tag_list}) ->
+      Enum.member?(tag_list, tag)
+    end)
   end
 
   def feed(user) do
@@ -54,11 +53,11 @@ defmodule RealWorld.Blog do
   end
 
   def list_tags do
-    Ecto.Adapters.SQL.query!(Repo, "select count(*) as tag_count, ut.tag
-          from articles, lateral unnest(articles.tag_list) as ut(tag)
-          group by ut.tag
-          order by tag_count desc limit 5;").rows
-    |> Enum.map(fn v -> Enum.at(v, 1) end)
+    Repo.all(Article)
+    |> Enum.map(fn (article) ->
+      article.tag_list
+    end)
+    |> List.flatten()
   end
 
   @doc """

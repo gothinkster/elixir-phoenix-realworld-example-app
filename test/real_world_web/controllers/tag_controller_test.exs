@@ -2,7 +2,12 @@ defmodule RealWorldWeb.TagControllerTest do
   use RealWorldWeb.ConnCase
   import RealWorld.Factory
 
+  alias RealWorld.Repo
+  alias RealWorld.Blog.Article
+
   setup do
+    Repo.delete_all(Article)
+
     user = insert(:user)
     insert(:article, author: user)
     :ok

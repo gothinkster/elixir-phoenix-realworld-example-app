@@ -2,6 +2,10 @@ defmodule RealWorldWeb.ProfileControllerTest do
   @moduledoc false
   use RealWorldWeb.ConnCase
 
+  alias RealWorld.Repo
+  alias RealWorld.Accounts.User
+  alias RealWorld.Accounts.UserFollower
+
   @user1_attrs %{
     email: "john@jacob.com",
     username: "john",
@@ -37,6 +41,9 @@ defmodule RealWorldWeb.ProfileControllerTest do
   end
 
   setup %{conn: conn} do
+    Repo.delete_all(User)
+    Repo.delete_all(UserFollower)
+
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 

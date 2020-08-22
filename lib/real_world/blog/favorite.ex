@@ -14,7 +14,7 @@ defmodule RealWorld.Blog.Favorite do
     belongs_to(:user, User, foreign_key: :user_id)
     belongs_to(:article, Article, foreign_key: :article_id)
 
-    timestamps()
+    timestamps(type: :utc_datetime_usec)
   end
 
   @doc false

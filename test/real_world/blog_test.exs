@@ -16,6 +16,10 @@ defmodule RealWorld.BlogTest do
   @invalid_attrs %{body: nil, description: nil, title: nil}
 
   setup context do
+    Repo.delete_all(User)
+    Repo.delete_all(Article)
+    Repo.delete_all(Favorite)
+
     user = insert(:user)
     article = unless context[:without_article], do: insert(:article, author: user)
     {:ok, jwt, _full_claims} = RealWorldWeb.Guardian.encode_and_sign(user)

@@ -2,6 +2,10 @@ defmodule RealWorldWeb.ArticleControllerTest do
   use RealWorldWeb.ConnCase
 
   import RealWorld.Factory
+  alias RealWorld.Repo
+  alias RealWorld.Accounts.User
+  alias RealWorld.Blog.Article
+  alias RealWorld.Blog.Favorite
 
   @create_attrs %{body: "some body", description: "some description", title: "some title"}
   @update_attrs %{
@@ -12,6 +16,10 @@ defmodule RealWorldWeb.ArticleControllerTest do
   @invalid_attrs %{body: nil, description: nil, title: nil}
 
   setup do
+    Repo.delete_all(User)
+    Repo.delete_all(Article)
+    Repo.delete_all(Favorite)
+
     user = insert(:user)
     article = insert(:article, author: user)
     {:ok, jwt, _full_claims} = RealWorldWeb.Guardian.encode_and_sign(user)

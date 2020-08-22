@@ -6,14 +6,13 @@ defmodule RealWorld.Accounts.UserFollower do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @primary_key false
   @required_fields ~w(user_id followee_id)a
 
   schema "user_followers" do
     field(:user_id, :integer, primary_key: true)
     field(:followee_id, :integer, primary_key: true)
 
-    timestamps(updated_at: false)
+    timestamps(updated_at: false, inserted_at: :created_at, type: :utc_datetime_usec)
   end
 
   def changeset(user, attrs) do

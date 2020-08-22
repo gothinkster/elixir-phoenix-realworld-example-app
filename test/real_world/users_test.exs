@@ -3,6 +3,8 @@ defmodule RealWorld.Accounts.UsersTest do
 
   use RealWorld.DataCase
 
+  alias RealWorld.Repo
+  alias RealWorld.Accounts.User
   alias RealWorld.Accounts.Users
 
   @user_create_attrs %{
@@ -12,6 +14,12 @@ defmodule RealWorld.Accounts.UsersTest do
     bio: "some bio",
     image: "some image"
   }
+
+  setup do
+    Repo.delete_all(User)
+
+    :ok
+  end
 
   test "update_user/2 hashes the password if new one set" do
     {:ok, user} = RealWorld.Accounts.Auth.register(@user_create_attrs)
