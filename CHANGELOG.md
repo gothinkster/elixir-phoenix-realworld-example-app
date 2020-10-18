@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Updates to Elixir, Erlang and deps
 
-- elixir 1.8.1
-  - erlang 20.0
-  - Circle CI config for elixir 1.8.1
+- elixir 1.9.1
+  - erlang 22.1
+  - Circle CI config for elixir 1.9.1
 - Phoenix v1.3 -> v1.4
   - Refactoring of several modules
   - References:
@@ -29,8 +29,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Semantic Versioning & Releases
 
 Started using the following in this project:
+
 - Semantic Versioning
 - Git tags
 - Github Releases
 - CHANGELOG.md
-
