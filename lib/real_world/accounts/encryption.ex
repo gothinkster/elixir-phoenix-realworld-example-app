@@ -1,6 +1,5 @@
 defmodule RealWorld.Accounts.Encryption do
-  alias Comeonin.Bcrypt
 
-  def password_hashing(password), do: Bcrypt.hashpwsalt(password)
-  def validate_password(password, hash), do: Bcrypt.checkpw(password, hash)
+  def password_hashing(password), do: Bcrypt.hash_pwd_salt(password)
+  def validate_password(password, hash), do: Bcrypt.verify_pass(password, hash)
 end

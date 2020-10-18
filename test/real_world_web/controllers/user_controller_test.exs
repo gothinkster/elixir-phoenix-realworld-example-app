@@ -37,7 +37,7 @@ defmodule RealWorldWeb.UserControllerTest do
   end
 
   test "creates user and renders user when data is valid", %{conn: conn} do
-    conn = post(conn, user_path(conn, :create), user: @user_create_attrs)
+    conn = post(conn, Routes.user_path(conn, :create), user: @user_create_attrs)
     json = json_response(conn, 201)["user"]
 
     assert json == %{
@@ -53,7 +53,7 @@ defmodule RealWorldWeb.UserControllerTest do
   end
 
   test "view current_user data", %{conn: conn} do
-    conn = get(secure_conn(conn), user_path(conn, :current_user))
+    conn = get(secure_conn(conn), Routes.user_path(conn, :current_user))
     json = json_response(conn, 200)["user"]
 
     assert json == %{
@@ -69,7 +69,7 @@ defmodule RealWorldWeb.UserControllerTest do
   end
 
   test "update current_user data", %{conn: conn} do
-    conn = put(secure_conn(conn), user_path(conn, :update), user: @user_update_attrs)
+    conn = put(secure_conn(conn), Routes.user_path(conn, :update), user: @user_update_attrs)
     json = json_response(conn, 200)["user"]
 
     assert json == %{

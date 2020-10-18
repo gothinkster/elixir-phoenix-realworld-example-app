@@ -21,8 +21,8 @@ defmodule RealWorldWeb do
     quote do
       use Phoenix.Controller, namespace: RealWorldWeb
       import Plug.Conn
-      import RealWorldWeb.Router.Helpers
       import RealWorldWeb.Gettext
+      alias RealWorldWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -35,9 +35,9 @@ defmodule RealWorldWeb do
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
-      import RealWorldWeb.Router.Helpers
       import RealWorldWeb.ErrorHelpers
       import RealWorldWeb.Gettext
+      alias RealWorldWeb.Router.Helpers, as: Routes
     end
   end
 

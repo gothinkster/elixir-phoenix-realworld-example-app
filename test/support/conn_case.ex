@@ -18,8 +18,9 @@ defmodule RealWorldWeb.ConnCase do
   using do
     quote do
       # Import conveniences for testing with connections
-      use Phoenix.ConnTest
-      import RealWorldWeb.Router.Helpers
+      import Plug.Conn
+      import Phoenix.ConnTest
+      alias RealWorldWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
       @endpoint RealWorldWeb.Endpoint

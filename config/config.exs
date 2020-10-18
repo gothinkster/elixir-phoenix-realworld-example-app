@@ -13,12 +13,15 @@ config :real_world, RealWorldWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N",
   render_errors: [view: RealWorldWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: RealWorld.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: [name: RealWorld.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
 
 config :real_world, RealWorldWeb.Guardian,
   issuer: "RealWorld",

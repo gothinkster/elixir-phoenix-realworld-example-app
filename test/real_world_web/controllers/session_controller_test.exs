@@ -30,7 +30,7 @@ defmodule RealWorldWeb.SessionControllerTest do
   end
 
   test "creates user and renders user when data is valid", %{conn: conn} do
-    conn = post(secure_conn(conn), session_path(conn, :create), user: @user_login_attrs)
+    conn = post(secure_conn(conn), Routes.session_path(conn, :create), user: @user_login_attrs)
     json = json_response(conn, 201)["user"]
 
     assert json == %{

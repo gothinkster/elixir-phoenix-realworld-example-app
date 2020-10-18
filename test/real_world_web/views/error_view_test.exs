@@ -13,9 +13,4 @@ defmodule RealWorldWeb.ErrorViewTest do
     assert render(RealWorldWeb.ErrorView, "500.json", []) ==
              %{errors: %{detail: "Internal server error"}}
   end
-
-  test "render any other" do
-    assert render(RealWorldWeb.ErrorView, "505.json", []) ==
-             %{errors: %{detail: "Internal server error"}}
-  end
 end
