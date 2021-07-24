@@ -13,18 +13,21 @@ defmodule RealWorldWeb.SessionController do
 
         conn
         |> put_status(:created)
-        |> render(RealWorldWeb.UserView, "login.json", jwt: jwt, user: user)
+        |> put_view(RealWorldWeb.UserView)
+        |> render("login.json", jwt: jwt, user: user)
 
       {:error, message} ->
         conn
         |> put_status(401)
-        |> render(RealWorldWeb.UserView, "error.json", message: message)
+        |> put_view(RealWorldWeb.UserView)
+        |> render("error.json", message: message)
     end
   end
 
   def auth_error(conn, {_type, _reason}, _opts) do
     conn
     |> put_status(:forbidden)
-    |> render(RealWorldWeb.UserView, "error.json", message: "Not Authenticated")
+    |> put_view(RealWorldWeb.UserView)
+    |> render("error.json", message: "Not Authenticated")
   end
 end
