@@ -38,14 +38,15 @@ defmodule RealWorld.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
-      {:phoenix_pubsub, "~> 1.0"},
+      {:phoenix, "~> 1.5"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:phoenix_live_dashboard, "~> 0.1"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, "~> 0.13.3"},
       {:gettext, "~> 0.11"},
       {:proper_case, "~> 1.0.0"},
-      {:cowboy, "~> 1.1"},
-      {:plug_cowboy, "~> 1.0.0"},
+      {:cowboy, "~> 2.5"},
+      {:plug_cowboy, "~> 2.1"},
       {:comeonin, "~> 3.2"},
       {:guardian, "~> 1.0"},
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
@@ -53,7 +54,8 @@ defmodule RealWorld.Mixfile do
       {:ex_machina, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:plug, "~> 1.0"},
-      {:corsica, "~> 1.0"}
+      {:corsica, "~> 1.0"},
+      {:json, "~> 1.0"}
     ]
   end
 
