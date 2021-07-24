@@ -8,12 +8,14 @@ use Mix.Config
 # General application configuration
 config :real_world, ecto_repos: [RealWorld.Repo]
 
+config :phoenix, :json_library, Jason
+
 # Configures the endpoint
 config :real_world, RealWorldWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N",
   render_errors: [view: RealWorldWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: RealWorld.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: RealWorld.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,

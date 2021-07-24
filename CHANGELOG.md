@@ -9,9 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Updates to Elixir, Erlang and deps
 
-- elixir 1.9.1
-- erlang 22.1
+- elixir 1.12.2
+- erlang 24.0.3
 - Circle CI config for elixir 1.9.1
+- Phoenix v1.3 -> v1.5.
+  - Refactoring of several modules
+- Ecto v2 -> v3
+  - This upgrade includes the split into Ecto + Ecto_sql
 
 ## [1.0.0] - 2019-04-10
 
