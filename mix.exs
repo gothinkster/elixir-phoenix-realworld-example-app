@@ -41,21 +41,22 @@ defmodule RealWorld.Mixfile do
       {:phoenix, "~> 1.5"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_live_dashboard, "~> 0.1"},
-      {:phoenix_ecto, "~> 3.2"},
-      {:postgrex, "~> 0.13.3"},
-      {:gettext, "~> 0.11"},
+      {:phoenix_ecto, "~> 4.0"},
+      {:ecto_sql, "~> 3.5"},
+      {:postgrex, "~> 0.15.9"},
+      {:gettext, "~> 0.18"},
       {:proper_case, "~> 1.0.0"},
       {:cowboy, "~> 2.5"},
       {:plug_cowboy, "~> 2.1"},
       {:comeonin, "~> 3.2"},
       {:guardian, "~> 1.0"},
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
-      {:credo, "~> 0.8.5", only: [:dev, :test]},
-      {:ex_machina, "~> 2.0", only: :test},
-      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:ex_machina, "~> 2.7", only: :test},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:plug, "~> 1.0"},
       {:corsica, "~> 1.0"},
-      {:json, "~> 1.0"}
+      {:jason, "~> 1.0"}
     ]
   end
 
