@@ -6,8 +6,7 @@ defmodule RealWorld.Accounts.Auth do
   import Ecto.{Query, Changeset}, warn: false
 
   alias RealWorld.Repo
-  alias RealWorld.Accounts.User
-  alias RealWorld.Accounts.Encryption
+  alias RealWorld.Accounts.{Encryption, User}
 
   def find_user_and_check_password(%{"user" => %{"email" => email, "password" => password}}) do
     user = Repo.get_by(User, email: String.downcase(email))
@@ -21,7 +20,6 @@ defmodule RealWorld.Accounts.Auth do
   def register(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
-    |> hash_password
     |> Repo.insert()
   end
 
@@ -29,16 +27,6 @@ defmodule RealWorld.Accounts.Auth do
     case user do
       nil -> false
       _ -> Encryption.validate_password(password, user.password)
-    end
-  end
-
-  def hash_password(changeset) do
-    case changeset do
-      %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
-        put_change(changeset, :password, Encryption.password_hashing(pass))
-
-      _ ->
-        changeset
     end
   end
 end
