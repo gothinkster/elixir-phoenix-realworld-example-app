@@ -1,7 +1,7 @@
 defmodule RealWorld.BlogTest do
   use RealWorld.DataCase
 
-  alias RealWorld.{Blog, Repo}
+  alias RealWorld.{Blogs, Repo}
   alias RealWorld.Blog.{Article, Favorite}
   alias RealWorld.Accounts.User
 
@@ -27,7 +27,7 @@ defmodule RealWorld.BlogTest do
     test "returns first 10 articles by default if no limit and offset are provided",
          %{author: user} do
       articles = insert_list(12, :article, author: user)
-      actual_article_ids = Blog.list_articles(%{}) |> Enum.map(fn article -> article.id end)
+      actual_article_ids = Blogs.list_articles(%{}) |> Enum.map(fn article -> article.id end)
       expected_article_ids = Enum.take(articles, 10) |> Enum.map(fn article -> article.id end)
       assert actual_article_ids == expected_article_ids
     end
@@ -37,7 +37,7 @@ defmodule RealWorld.BlogTest do
       articles = insert_list(3, :article, author: user)
 
       actual_article_ids =
-        Blog.list_articles(%{"limit" => 2}) |> Enum.map(fn article -> article.id end)
+        Blogs.list_articles(%{"limit" => 2}) |> Enum.map(fn article -> article.id end)
 
       expected_article_ids = Enum.take(articles, 2) |> Enum.map(fn article -> article.id end)
       assert actual_article_ids == expected_article_ids
@@ -48,7 +48,7 @@ defmodule RealWorld.BlogTest do
       articles = insert_list(3, :article, author: user)
 
       actual_article_ids =
-        Blog.list_articles(%{"offset" => 1}) |> Enum.map(fn article -> article.id end)
+        Blogs.list_articles(%{"offset" => 1}) |> Enum.map(fn article -> article.id end)
 
       expected_article_ids = Enum.take(articles, -2) |> Enum.map(fn article -> article.id end)
       assert actual_article_ids == expected_article_ids
@@ -61,7 +61,7 @@ defmodule RealWorld.BlogTest do
       articles = insert_list(4, :article, author: user)
 
       actual_article_ids =
-        Blog.list_articles(%{"offset" => 1, "limit" => "2"})
+        Blogs.list_articles(%{"offset" => 1, "limit" => "2"})
         |> Enum.map(fn article -> article.id end)
 
       expected_article_ids = [Enum.at(articles, 1).id, Enum.at(articles, 2).id]
@@ -74,7 +74,7 @@ defmodule RealWorld.BlogTest do
       insert_list(2, :article, author: user, tag_list: ["tag2"])
 
       actual_article_ids =
-        Blog.list_articles(%{"tag" => "tag1"}) |> Enum.map(fn article -> article.id end)
+        Blogs.list_articles(%{"tag" => "tag1"}) |> Enum.map(fn article -> article.id end)
 
       expected_article_ids = articles_with_required_tag |> Enum.map(fn article -> article.id end)
       assert actual_article_ids == expected_article_ids
@@ -83,14 +83,14 @@ defmodule RealWorld.BlogTest do
 
   describe "get_article!/1" do
     test "returns the article with given id", %{article: article} do
-      assert Blog.get_article!(article.id).id == article.id
+      assert Blogs.get_article!(article.id).id == article.id
     end
   end
 
   describe "create_article/1" do
     test "with valid data creates a article", %{author: author} do
       assert {:ok, %Article{} = article} =
-               Blog.create_article(Map.merge(@create_attrs, %{user_id: author.id}))
+               Blogs.create_article(Map.merge(@create_attrs, %{user_id: author.id}))
 
       assert article.body == "some body"
       assert article.description == "some description"
@@ -99,7 +99,7 @@ defmodule RealWorld.BlogTest do
     end
 
     test "with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{} = changeset} = Blog.create_article(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{} = changeset} = Blogs.create_article(@invalid_attrs)
 
       assert "can't be blank" in errors_on(changeset).title
       assert "can't be blank" in errors_on(changeset).description
@@ -110,7 +110,7 @@ defmodule RealWorld.BlogTest do
 
   describe "update_article/2" do
     test "with valid data updates the article", %{article: article} do
-      assert {:ok, article} = Blog.update_article(article, @update_attrs)
+      assert {:ok, article} = Blogs.update_article(article, @update_attrs)
       assert %Article{} = article
       assert article.body == "some updated body"
       assert article.description == "some updated description"
@@ -120,24 +120,24 @@ defmodule RealWorld.BlogTest do
 
     test "with invalid data returns error changeset", %{article: article} do
       assert {:error, %Ecto.Changeset{} = changeset} =
-               Blog.update_article(article, @invalid_attrs)
+               Blogs.update_article(article, @invalid_attrs)
 
       assert "can't be blank" in errors_on(changeset).title
       assert "can't be blank" in errors_on(changeset).description
       assert "can't be blank" in errors_on(changeset).body
 
-      assert article.id == Blog.get_article!(article.id).id
+      assert article.id == Blogs.get_article!(article.id).id
     end
   end
 
   describe "delete_article/1" do
     test "deletes the article", %{article: article} do
-      assert {:ok, %Article{}} = Blog.delete_article(article.slug)
-      assert_raise Ecto.NoResultsError, fn -> Blog.get_article!(article.id) end
+      assert {:ok, %Article{}} = Blogs.delete_article(article.slug)
+      assert_raise Ecto.NoResultsError, fn -> Blogs.get_article!(article.id) end
     end
 
     test "returns false when slug does not exist" do
-      assert false == Blog.delete_article("inexistent-slug")
+      assert false == Blogs.delete_article("inexistent-slug")
     end
   end
 
@@ -146,7 +146,7 @@ defmodule RealWorld.BlogTest do
       article: article,
       author: user
     } do
-      assert {:ok, %Favorite{} = favorite} = Blog.favorite(user, article)
+      assert {:ok, %Favorite{} = favorite} = Blogs.favorite(user, article)
       favorite = Repo.preload(favorite, [:article, :user])
       assert %Article{} = favorite.article
       assert %User{} = favorite.user
@@ -160,12 +160,12 @@ defmodule RealWorld.BlogTest do
     } do
       insert(:favorite, article: article, user: user)
 
-      article = Blog.load_favorite(article, user)
+      article = Blogs.load_favorite(article, user)
       assert article.favorited
     end
 
     test "returns the article without user", %{article: article} do
-      article = Blog.load_favorite(article, nil)
+      article = Blogs.load_favorite(article, nil)
       refute article.favorited
     end
 
@@ -175,12 +175,12 @@ defmodule RealWorld.BlogTest do
     } do
       insert(:favorite, article: article, user: user)
 
-      article = List.first(Blog.load_favorites([article], user))
+      article = List.first(Blogs.load_favorites([article], user))
       assert article.favorited
     end
 
     test "returns the list of articles without user", %{article: article} do
-      article = List.first(Blog.load_favorites([article], nil))
+      article = List.first(Blogs.load_favorites([article], nil))
       refute article.favorited
     end
   end
@@ -188,7 +188,7 @@ defmodule RealWorld.BlogTest do
   describe "unfavorite/2" do
     test "deletes the favorite", %{article: article, author: user} do
       insert(:favorite, article: article, user: user)
-      Blog.unfavorite(article, user)
+      Blogs.unfavorite(article, user)
 
       assert length(Repo.all(Favorite)) == 0
     end

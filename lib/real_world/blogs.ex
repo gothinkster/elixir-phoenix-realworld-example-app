@@ -1,4 +1,4 @@
-defmodule RealWorld.Blog do
+defmodule RealWorld.Blogs do
   @moduledoc """
   The boundary for the Blog system.
   """

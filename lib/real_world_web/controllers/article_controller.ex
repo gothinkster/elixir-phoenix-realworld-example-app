@@ -2,7 +2,7 @@ defmodule RealWorldWeb.ArticleController do
   use RealWorldWeb, :controller
   use RealWorldWeb.GuardedController
 
-  alias RealWorld.{Blog, Repo}
+  alias RealWorld.{Blogs, Repo}
   alias RealWorld.Blog.{Article, Favorite}
 
   action_fallback(RealWorldWeb.FallbackController)
@@ -19,9 +19,9 @@ defmodule RealWorldWeb.ArticleController do
 
   def index(conn, params, user) do
     articles =
-      Blog.list_articles(params)
+      Blogs.list_articles(params)
       |> Repo.preload([:author, :favorites])
-      |> Blog.load_favorites(user)
+      |> Blogs.load_favorites(user)
 
     render(conn, "index.json", articles: articles)
   end
@@ -29,14 +29,14 @@ defmodule RealWorldWeb.ArticleController do
   def feed(conn, _params, user) do
     articles =
       user
-      |> Blog.feed()
+      |> Blogs.feed()
       |> Repo.preload([:author, :favorites])
 
     render(conn, "index.json", articles: articles)
   end
 
   def create(conn, %{"article" => params}, user) do
-    with {:ok, %Article{} = article} <- Blog.create_article(create_params(params, user)) do
+    with {:ok, %Article{} = article} <- Blogs.create_article(create_params(params, user)) do
       article =
         article
         |> Repo.preload([:author, :favorites])
@@ -56,9 +56,9 @@ defmodule RealWorldWeb.ArticleController do
   def show(conn, %{"id" => slug}, user) do
     article =
       slug
-      |> Blog.get_article_by_slug!()
+      |> Blogs.get_article_by_slug!()
       |> Repo.preload([:author, :favorites])
-      |> Blog.load_favorite(user)
+      |> Blogs.load_favorite(user)
 
     render(conn, "show.json", article: article)
   end
@@ -66,11 +66,11 @@ defmodule RealWorldWeb.ArticleController do
   def update(conn, %{"id" => id, "article" => article_params}, user) do
     article =
       id
-      |> Blog.get_article!()
+      |> Blogs.get_article!()
       |> Repo.preload([:author, :favorites])
-      |> Blog.load_favorite(user)
+      |> Blogs.load_favorite(user)
 
-    with {:ok, %Article{} = article} <- Blog.update_article(article, article_params) do
+    with {:ok, %Article{} = article} <- Blogs.update_article(article, article_params) do
       render(conn, "show.json", article: article)
     end
   end
@@ -78,35 +78,35 @@ defmodule RealWorldWeb.ArticleController do
   def favorite(conn, %{"slug" => slug}, user) do
     article =
       slug
-      |> Blog.get_article_by_slug!()
+      |> Blogs.get_article_by_slug!()
 
-    with {:ok, %Favorite{}} <- Blog.favorite(user, article) do
+    with {:ok, %Favorite{}} <- Blogs.favorite(user, article) do
       article =
         article
         |> Repo.preload([:author, :favorites])
-        |> Blog.load_favorite(user)
+        |> Blogs.load_favorite(user)
 
-      render(conn, "show.json", article: Blog.load_favorite(article, user))
+      render(conn, "show.json", article: Blogs.load_favorite(article, user))
     end
   end
 
   def unfavorite(conn, %{"slug" => slug}, user) do
     article =
       slug
-      |> Blog.get_article_by_slug!()
+      |> Blogs.get_article_by_slug!()
 
-    with {:ok, _} <- Blog.unfavorite(article, user) do
+    with {:ok, _} <- Blogs.unfavorite(article, user) do
       article =
         article
         |> Repo.preload([:author, :favorites])
-        |> Blog.load_favorite(user)
+        |> Blogs.load_favorite(user)
 
-      render(conn, "show.json", article: Blog.load_favorite(article, user))
+      render(conn, "show.json", article: Blogs.load_favorite(article, user))
     end
   end
 
   def delete(conn, %{"id" => slug}, _user) do
-    Blog.delete_article(slug)
+    Blogs.delete_article(slug)
     send_resp(conn, :no_content, "")
   end
 end

@@ -2,7 +2,7 @@ defmodule RealWorldWeb.CommentController do
   use RealWorldWeb, :controller
   use RealWorldWeb.GuardedController
 
-  alias RealWorld.Blog
+  alias RealWorld.Blogs
   alias RealWorld.Blog.Comment
 
   action_fallback(RealWorldWeb.FallbackController)
@@ -10,8 +10,8 @@ defmodule RealWorldWeb.CommentController do
   plug(Guardian.Plug.EnsureAuthenticated when action in [:create, :update, :delete])
 
   def index(conn, %{"article_id" => slug}, _user) do
-    article = Blog.get_article_by_slug!(slug)
-    comments = Blog.list_comments(article)
+    article = Blogs.get_article_by_slug!(slug)
+    comments = Blogs.list_comments(article)
 
     comments =
       comments
@@ -21,10 +21,10 @@ defmodule RealWorldWeb.CommentController do
   end
 
   def create(conn, %{"article_id" => slug, "comment" => comment_params}, user) do
-    article = Blog.get_article_by_slug!(slug)
+    article = Blogs.get_article_by_slug!(slug)
 
     with {:ok, %Comment{} = comment} <-
-           Blog.create_comment(
+           Blogs.create_comment(
              comment_params
              |> Map.merge(%{"user_id" => user.id})
              |> Map.merge(%{"article_id" => article.id})
@@ -36,17 +36,17 @@ defmodule RealWorldWeb.CommentController do
   end
 
   def update(conn, %{"id" => id, "comment" => comment_params}, _user) do
-    comment = Blog.get_comment!(id)
+    comment = Blogs.get_comment!(id)
 
-    with {:ok, %Comment{} = comment} <- Blog.update_comment(comment, comment_params) do
+    with {:ok, %Comment{} = comment} <- Blogs.update_comment(comment, comment_params) do
       render(conn, "show.json", comment: comment)
     end
   end
 
   def delete(conn, %{"id" => id}, _user) do
-    comment = Blog.get_comment!(id)
+    comment = Blogs.get_comment!(id)
 
-    with {:ok, %Comment{}} <- Blog.delete_comment(comment) do
+    with {:ok, %Comment{}} <- Blogs.delete_comment(comment) do
       send_resp(conn, :no_content, "")
     end
   end
