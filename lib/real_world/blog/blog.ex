@@ -28,18 +28,6 @@ defmodule RealWorld.Blog do
     |> Repo.all()
   end
 
-  def filter_by_tags(query, nil) do
-    query
-  end
-
-  def filter_by_tags(query, tag) do
-    query
-    |> where(
-      [a],
-      fragment("exists (select * from unnest(?) tag where tag = ?)", a.tag_list, ^tag)
-    )
-  end
-
   def feed(user) do
     query =
       from(
@@ -54,11 +42,11 @@ defmodule RealWorld.Blog do
   end
 
   def list_tags do
-    Ecto.Adapters.SQL.query!(Repo, "select count(*) as tag_count, ut.tag
-          from articles, lateral unnest(articles.tag_list) as ut(tag)
-          group by ut.tag
-          order by tag_count desc limit 5;").rows
-    |> Enum.map(fn v -> Enum.at(v, 1) end)
+    Repo.all(Article)
+    |> Enum.map(fn article ->
+      article.tag_list
+    end)
+    |> List.flatten()
   end
 
   @doc """
@@ -146,6 +134,7 @@ defmodule RealWorld.Blog do
       [%Comment{}, ...]
 
   """
+
   # def list_comments do
   #   Repo.all(Comment)
   # end
@@ -258,14 +247,12 @@ defmodule RealWorld.Blog do
   {:ok, %Favorite{}}
   """
   def favorite(user, article) do
-    favorite = %Favorite{}
-
     params = %{
       user_id: user.id,
       article_id: article.id
     }
 
-    favorite
+    %Favorite{}
     |> Favorite.changeset(params)
     |> Repo.insert()
   end
@@ -284,6 +271,18 @@ defmodule RealWorld.Blog do
   def load_favorites(articles, user) do
     articles
     |> Enum.map(fn article -> load_favorite(article, user) end)
+  end
+
+  defp filter_by_tags(query, nil) do
+    query
+  end
+
+  defp filter_by_tags(query, tag) do
+    query
+    |> where(
+      [a],
+      fragment("exists (select * from unnest(?) tag where tag = ?)", a.tag_list, ^tag)
+    )
   end
 
   defp find_favorite(%Article{} = article, %User{} = user) do
