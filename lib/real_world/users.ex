@@ -1,4 +1,4 @@
-defmodule RealWorld.Accounts.Users do
+defmodule RealWorld.Users do
   @moduledoc """
   The boundry for the Users system
   """

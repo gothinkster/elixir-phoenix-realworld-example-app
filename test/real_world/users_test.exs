@@ -1,9 +1,9 @@
-defmodule RealWorld.Accounts.UsersTest do
+defmodule RealWorld.UsersTest do
   @moduledoc nil
 
   use RealWorld.DataCase
 
-  alias RealWorld.Accounts.Users
+  alias RealWorld.Users
   alias RealWorld.Auth
 
   @user_create_attrs %{
