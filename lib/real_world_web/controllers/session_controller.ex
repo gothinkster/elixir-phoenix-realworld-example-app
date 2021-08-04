@@ -1,7 +1,7 @@
 defmodule RealWorldWeb.SessionController do
   use RealWorldWeb, :controller
 
-  alias RealWorld.Accounts.Auth
+  alias RealWorld.Auth
 
   action_fallback(RealWorldWeb.FallbackController)
 

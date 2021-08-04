@@ -6,7 +6,8 @@ defmodule RealWorld.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias RealWorld.Accounts.Encryption
+  alias RealWorld.Blog.{Article, Comment}
+  alias RealWorld.Encryption
 
   @required_fields ~w(email username password)a
   @optional_fields ~w(bio image)a
@@ -18,8 +19,8 @@ defmodule RealWorld.Accounts.User do
     field(:bio, :string)
     field(:image, :string)
 
-    has_many(:articles, RealWorld.Blog.Article)
-    has_many(:comments, RealWorld.Blog.Comment)
+    has_many(:articles, Article)
+    has_many(:comments, Comment)
 
     timestamps(inserted_at: :created_at)
   end

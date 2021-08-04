@@ -2,6 +2,8 @@ defmodule RealWorldWeb.SessionControllerTest do
   @moduledoc false
   use RealWorldWeb.ConnCase
 
+  alias RealWorld.Auth
+
   @user_default_attrs %{
     email: "john@jacob.com",
     username: "john",
@@ -12,7 +14,7 @@ defmodule RealWorldWeb.SessionControllerTest do
   @user_login_attrs %{email: "john@jacob.com", password: "some password"}
 
   def fixture(:user) do
-    {:ok, user} = RealWorld.Accounts.Auth.register(@user_default_attrs)
+    {:ok, user} = Auth.register(@user_default_attrs)
     user
   end
 

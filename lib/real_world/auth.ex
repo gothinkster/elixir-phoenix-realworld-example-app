@@ -1,4 +1,4 @@
-defmodule RealWorld.Accounts.Auth do
+defmodule RealWorld.Auth do
   @moduledoc """
   The boundry for the Auth system
   """
@@ -6,7 +6,8 @@ defmodule RealWorld.Accounts.Auth do
   import Ecto.{Query, Changeset}, warn: false
 
   alias RealWorld.Repo
-  alias RealWorld.Accounts.{Encryption, User}
+  alias RealWorld.Accounts.User
+  alias RealWorld.Encryption
 
   def find_user_and_check_password(%{"user" => %{"email" => email, "password" => password}}) do
     user = Repo.get_by(User, email: String.downcase(email))

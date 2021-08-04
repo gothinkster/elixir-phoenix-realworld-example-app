@@ -2,6 +2,8 @@ defmodule RealWorldWeb.ProfileControllerTest do
   @moduledoc false
   use RealWorldWeb.ConnCase
 
+  alias RealWorld.Auth
+
   @user1_attrs %{
     email: "john@jacob.com",
     username: "john",
@@ -18,12 +20,12 @@ defmodule RealWorldWeb.ProfileControllerTest do
   }
 
   def fixture(:user1) do
-    {:ok, user} = RealWorld.Accounts.Auth.register(@user1_attrs)
+    {:ok, user} = Auth.register(@user1_attrs)
     user
   end
 
   def fixture(:user2) do
-    {:ok, user} = RealWorld.Accounts.Auth.register(@user2_attrs)
+    {:ok, user} = Auth.register(@user2_attrs)
     user
   end
 

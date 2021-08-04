@@ -1,4 +1,4 @@
-defmodule RealWorld.Accounts.Encryption do
+defmodule RealWorld.Encryption do
   alias Comeonin.Bcrypt
 
   def password_hashing(password), do: Bcrypt.hashpwsalt(password)

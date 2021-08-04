@@ -2,7 +2,8 @@ defmodule RealWorldWeb.UserController do
   use RealWorldWeb, :controller
   use RealWorldWeb.GuardedController
 
-  alias RealWorld.Accounts.{Auth, Users}
+  alias RealWorld.Accounts.Users
+  alias RealWorld.Auth
 
   action_fallback(RealWorldWeb.FallbackController)
 

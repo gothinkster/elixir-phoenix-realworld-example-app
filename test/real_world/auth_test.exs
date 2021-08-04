@@ -1,9 +1,10 @@
-defmodule RealWorld.Accounts.AuthTest do
+defmodule RealWorld.AuthTest do
   @moduledoc false
   use RealWorld.DataCase
   import RealWorld.Factory
 
-  alias RealWorld.Accounts.{Auth, User}
+  alias RealWorld.Accounts.User
+  alias RealWorld.Auth
 
   setup do
     user_params = params_for(:user)
