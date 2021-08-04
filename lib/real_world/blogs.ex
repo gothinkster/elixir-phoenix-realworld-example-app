@@ -5,10 +5,8 @@ defmodule RealWorld.Blogs do
 
   import Ecto.Query, warn: false
   alias RealWorld.Repo
-  alias RealWorld.Accounts.{User, UserFollower}
-  alias RealWorld.Blog.{Article, Comment, Favorite}
-
-  @default_article_pagination_limit 10
+  alias RealWorld.Accounts.User
+  alias RealWorld.Blog.{Article, BlogQueries, Comment, Favorite}
 
   @doc """
   Returns the list of articles.
@@ -20,24 +18,15 @@ defmodule RealWorld.Blogs do
 
   """
   def list_articles(params) do
-    limit = params["limit"] || @default_article_pagination_limit
-    offset = params["offset"] || 0
-
-    from(a in Article, limit: ^limit, offset: ^offset, order_by: a.created_at)
-    |> filter_by_tags(params["tag"])
+    params
+    |> BlogQueries.list_articles()
+    |> BlogQueries.filter_by_tags(params["tag"])
     |> Repo.all()
   end
 
   def feed(user) do
-    query =
-      from(
-        a in Article,
-        join: uf in UserFollower,
-        on: a.user_id == uf.followee_id,
-        where: uf.user_id == ^user.id
-      )
-
-    query
+    user
+    |> BlogQueries.feed()
     |> Repo.all()
   end
 
@@ -140,7 +129,9 @@ defmodule RealWorld.Blogs do
   # end
 
   def list_comments(article) do
-    Repo.all(from(c in Comment, where: c.article_id == ^article.id))
+    article
+    |> BlogQueries.list_comments()
+    |> Repo.all()
   end
 
   @doc """
@@ -273,21 +264,9 @@ defmodule RealWorld.Blogs do
     |> Enum.map(fn article -> load_favorite(article, user) end)
   end
 
-  defp filter_by_tags(query, nil) do
-    query
-  end
-
-  defp filter_by_tags(query, tag) do
-    query
-    |> where(
-      [a],
-      fragment("exists (select * from unnest(?) tag where tag = ?)", a.tag_list, ^tag)
-    )
-  end
-
   defp find_favorite(%Article{} = article, %User{} = user) do
-    query = from(f in Favorite, where: f.article_id == ^article.id and f.user_id == ^user.id)
-
-    Repo.one(query)
+    article
+    |> BlogQueries.find_favorite(user)
+    |> Repo.one()
   end
 end
